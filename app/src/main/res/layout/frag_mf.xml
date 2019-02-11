@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="frag"
+            type="com.curtspec2018.homa.MFFragment"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.riontech.calendar.CustomCalendar
+            android:id="@+id/calendar"
+            app:endMonth="07"
+            app:endYear="2040"
+            app:startMonth="01"
+            app:startYear="2016"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.riontech.calendar.CustomCalendar>
+
+    </RelativeLayout>
+</layout>

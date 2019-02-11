@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="frag"
+            type="com.curtspec2018.homa.MSFragment"/>
+    </data>
+    <LinearLayout
+        android:weightSum="5"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="처리대기"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="#747474"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <ListView
+                android:id="@+id/listview_yet"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="미입금"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="8dp"
+                android:background="#747474"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <ListView
+                android:id="@+id/listview_not"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

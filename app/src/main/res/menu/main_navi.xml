@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/g1">
+
+        <item
+            android:icon="@drawable/ic_home"
+            android:title="내 건물 관리"
+            android:id="@+id/menu_house"/>
+
+        <item
+            android:icon="@drawable/ic_people"
+            android:title="입주자 관리"
+            android:id="@+id/menu_people"/>
+
+        <item
+            android:icon="@drawable/ic_payday"
+            android:title="월세 관리"
+            android:id="@+id/menu_pay"/>
+
+        <item
+            android:icon="@drawable/ic_memo"
+            android:title="메모 관리"
+            android:id="@+id/menu_memo"/>
+
+
+        <item
+            android:icon="@drawable/ic_mega"
+            android:title="공지 관리"
+            android:id="@+id/menu_noti"/>
+
+        <item
+            android:icon="@drawable/ic_complaint"
+            android:title="민원 관리"
+            android:id="@+id/menu_complaint"/>
+
+        <item
+            android:icon="@drawable/ic_setting"
+            android:title="설정"
+            android:id="@+id/menu_setting"/>
+
+    </group>
+
+    <group android:id="@+id/g2">
+        <item
+            android:icon="@drawable/ic_vpn"
+            android:id="@+id/menu_test"
+            android:title="LOGIN FOR TEST"/>
+    </group>
+
+
+
+</menu>
