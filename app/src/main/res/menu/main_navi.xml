@@ -16,12 +16,12 @@
 
         <item
             android:icon="@drawable/ic_payday"
-            android:title="월세 관리"
+            android:title="월세 가계부"
             android:id="@+id/menu_pay"/>
 
         <item
             android:icon="@drawable/ic_memo"
-            android:title="메모 관리"
+            android:title="메모/일정"
             android:id="@+id/menu_memo"/>
 
 

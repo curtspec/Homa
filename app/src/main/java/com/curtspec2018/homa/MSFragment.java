@@ -26,7 +26,8 @@ public class MSFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-
+        b.listviewNot.setEmptyView(b.emptyView);
+        b.listviewYet.setEmptyView(b.emptyView);
 
         super.onViewCreated(view, savedInstanceState);
     }

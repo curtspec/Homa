@@ -33,13 +33,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
-            <ListView
-                android:id="@+id/listview_yet"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="8dp"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </ListView>
+
+                <ListView
+                    android:id="@+id/listview_yet"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+
+            </android.support.v4.widget.NestedScrollView>
+
+
 
         </LinearLayout>
 
@@ -65,14 +73,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
-            <ListView
-                android:id="@+id/listview_not"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="8dp"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </ListView>
+
+                <ListView
+                    android:id="@+id/listview_not"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/empty_view"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:tint="#a9a9a9"
+                android:src="@drawable/ic_error"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+
+            <TextView
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#a9a9a9"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="표시할 데이터가 없습니다"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </LinearLayout>
+
 </layout>

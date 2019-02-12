@@ -6,19 +6,27 @@
             name="frag"
             type="com.curtspec2018.homa.MFFragment"/>
     </data>
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.riontech.calendar.CustomCalendar
-            android:id="@+id/calendar"
-            app:endMonth="07"
-            app:endYear="2040"
-            app:startMonth="01"
-            app:startYear="2016"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.riontech.calendar.CustomCalendar>
 
-    </RelativeLayout>
+            <com.riontech.calendar.CustomCalendar
+                android:id="@+id/calendar"
+                app:endMonth="07"
+                app:endYear="2040"
+                app:startMonth="01"
+                app:startYear="2016"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.riontech.calendar.CustomCalendar>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
 </layout>
