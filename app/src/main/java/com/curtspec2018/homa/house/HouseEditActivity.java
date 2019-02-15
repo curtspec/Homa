@@ -28,6 +28,7 @@ public class HouseEditActivity extends AppCompatActivity {
 
     ActivityHouseEditBinding b;
     Intent intent;
+    String type;
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -39,8 +40,10 @@ public class HouseEditActivity extends AppCompatActivity {
         b = DataBindingUtil.setContentView(this, R.layout.activity_house_edit);
         setSupportActionBar(b.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.house_edit_activity_title);
 
         intent = getIntent();
+        type = intent.getStringExtra("type");
         b.rbElevatorNot.setChecked(true);
         b.rgParking.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -102,6 +105,7 @@ public class HouseEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (type.equals("new")) return false;
         getMenuInflater().inflate(R.menu.house_edit, menu);
         Drawable drawable = menu.getItem(0).getIcon();
         if (drawable != null){

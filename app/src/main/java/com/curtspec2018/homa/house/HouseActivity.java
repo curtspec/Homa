@@ -47,6 +47,13 @@ public class HouseActivity extends AppCompatActivity {
 
     public void clickEnter(View v){
         Intent intent = new Intent(this, HouseEditActivity.class);
+        intent.putExtra("type", "edit");
+        startActivityForResult(intent, HOUSE_EDIT);
+    }
+
+    public void clickFab(View view) {
+        Intent intent = new Intent(this, HouseEditActivity.class);
+        intent.putExtra("type", "new");
         startActivityForResult(intent, HOUSE_EDIT);
     }
 
@@ -64,4 +71,5 @@ public class HouseActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

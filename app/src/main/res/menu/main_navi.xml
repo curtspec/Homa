@@ -12,7 +12,7 @@
         <item
             android:icon="@drawable/ic_people"
             android:title="입주자 관리"
-            android:id="@+id/menu_people"/>
+            android:id="@+id/menu_tenant"/>
 
         <item
             android:icon="@drawable/ic_payday"

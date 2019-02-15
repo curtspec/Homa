@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.curtspec2018.homa.adapter.MPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityMainBinding;
 import com.curtspec2018.homa.house.HouseActivity;
+import com.curtspec2018.homa.tenant.TenantActivity;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity{
                 switch (menuItem.getItemId()){
                     case R.id.menu_house:
                         startActivity(new Intent(MainActivity.this, HouseActivity.class));
+                        break;
+                    case R.id.menu_tenant :
+                        startActivity(new Intent(MainActivity.this, TenantActivity.class));
                         break;
                 }
                 return false;
