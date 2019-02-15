@@ -50,11 +50,11 @@
                     android:id="@+id/circle_iv"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/house_sample"
+                    android:src="@drawable/ic_request_image"
                     app:civ_border_color="@color/colorPrimary"
                     app:civ_border_width="1dp"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp" />
+                    android:layout_width="75dp"
+                    android:layout_height="75dp" />
 
                 <TextView
                     android:id="@+id/tv_current_name"

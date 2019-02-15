@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.adapter.ChartMarker;
 import com.curtspec2018.homa.databinding.FragMtBinding;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -39,7 +40,6 @@ public class MTFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         b = DataBindingUtil.inflate(inflater, R.layout.frag_mt, container, false);
         b.setFrag(this);
-
         return inflater.inflate(R.layout.frag_mt, container, false);
     }
 
@@ -63,6 +63,9 @@ public class MTFragment extends Fragment {
         data.setData(getLineData());
 
         chart.setData(data);
+        ChartMarker marker = new ChartMarker(getContext(), R.layout.marker_chart);
+
+        chart.setMarker(marker);
 
         xAxis.setAxisMaximum(data.getXMax() + 0.5f);
         xAxis.setAxisMinimum(data.getXMin() - 0.5f);
@@ -78,7 +81,7 @@ public class MTFragment extends Fragment {
 
         BarDataSet set1 = new BarDataSet(entries1, "label1");
         set1.setDrawValues(false);
-        set1.setColors(0xffba8f80);
+        set1.setColors(0xff80c6af);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         BarData data = new BarData(set1);

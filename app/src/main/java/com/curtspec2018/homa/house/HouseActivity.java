@@ -1,6 +1,8 @@
 package com.curtspec2018.homa.house;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,8 @@ public class HouseActivity extends AppCompatActivity {
     ActivityHouseBinding b;
     ArrayList<HouseListItem> items = new ArrayList<>();
     HouseAdapter adapter;
+
+    final int HOUSE_EDIT = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,26 @@ public class HouseActivity extends AppCompatActivity {
 
     public void setItems(){
         //items.add(new HouseListItem("건물이름", "", "서울시 관악구 봉천동", "196-160번지"));
+        //TODO : 내가 가지고 있는 주소 리스트 추가.
     }
 
     public void clickEnter(View v){
-        Toast.makeText(this, "enter", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, HouseEditActivity.class);
+        startActivityForResult(intent, HOUSE_EDIT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode){
+            case HOUSE_EDIT:
+                if (resultCode == RESULT_OK){
+                    //TODO : 전달받은 값으로 주소리스트의 값변경
+                }
+                if (resultCode == HouseEditActivity.RESULT_DELETE){
+                    Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
