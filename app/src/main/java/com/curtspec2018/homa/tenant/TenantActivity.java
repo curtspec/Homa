@@ -1,5 +1,6 @@
 package com.curtspec2018.homa.tenant;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,12 +16,16 @@ import android.view.MenuItem;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.TenantPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityTenantBinding;
+import com.curtspec2018.homa.vo.Room;
 
 public class TenantActivity extends AppCompatActivity {
 
     ActivityTenantBinding b;
     TenantPagerAdapter adapter;
     MenuItem item;
+
+    public static final int REQUEST_EDIT_ROOM = 1;
+    public static final int REQUEST_CREATE_ROOM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,5 +79,9 @@ public class TenantActivity extends AppCompatActivity {
         searchAutoComplete.setTextColor(Color.WHITE);
         searchAutoComplete.setHintTextColor(Color.WHITE);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void editRoomInfo(Room room){
+        //startActivityForResult(new Intent());
     }
 }

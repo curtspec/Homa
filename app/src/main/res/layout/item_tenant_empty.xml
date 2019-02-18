@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="4dp"
+    android:layout_height="110dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:background="@color/colorPrimary"
+            android:text="102호"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_below="@id/tv_name"
+            android:orientation="vertical"
+            android:paddingVertical="8dp"
+            android:paddingLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_floor"
+                android:text="1층"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/tv_nick"
+                android:text="별칭쓰는자리"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/tv_empty_time"
+                android:text="2018.03.02 공실등록"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_enter"
+            android:src="@drawable/ic_enter"
+            android:layout_below="@id/tv_name"
+            android:layout_alignParentRight="true"
+            android:layout_width="34dp"
+            android:layout_marginRight="16dp"
+            android:tint="@color/colorAccent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#795548</color>
     <color name="colorAccent">#0091EA</color>
     <color name="White">#ffffff</color>
+    <color name="Black">#000000</color>
     <color name="chart1">#d2c342</color>
     <color name="chart2">#74FFA0</color>
     <color name="chart3">#80c6af</color>
