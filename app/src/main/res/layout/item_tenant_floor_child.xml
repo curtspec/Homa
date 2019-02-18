@@ -7,10 +7,11 @@
     <TextView
         android:id="@+id/tv_name"
         android:text="102호"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="4dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

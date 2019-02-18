@@ -14,7 +14,9 @@ import android.widget.LinearLayout;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.FloorParentsRAdapter;
 import com.curtspec2018.homa.vo.Floor;
+import com.curtspec2018.homa.vo.Room;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FloorFragment extends Fragment {
@@ -29,6 +31,20 @@ public class FloorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //testdata
+        ArrayList<Room> rooms = new ArrayList<>();
+        Room r = new Room("202호", "2층 첫방", 2, false, false);
+        Room r2 = new Room("203호", "2층 두번째방", 2, false, false);
+        rooms.add(r);
+        rooms.add(r2);
+        rooms.add(new Room("203호", "2층 두번째방", 2, false, false));
+        rooms.add(new Room("203호", "2층 두번째방", 2, false, false));
+        rooms.add(new Room("203호", "2층 두번째방", 2, false, false));
+        rooms.add(new Room("203호", "2층 두번째방", 2, false, false));
+        rooms.add(new Room("203호", "2층 두번째방", 2, false, false));
+        floors.add(new Floor(2, rooms));
+
         return inflater.inflate(R.layout.frag_tenant_fllor, container, false);
     }
 
