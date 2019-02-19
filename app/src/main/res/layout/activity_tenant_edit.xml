@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:background="@color/White"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:theme="@style/AppTheme.appbar"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+        </android.support.v7.widget.Toolbar>
+
+        <ScrollView
+            android:layout_below="@id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".tenant.TenantEditActivity">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="층수"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/edit_floor"
+                        android:layout_marginLeft="8dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:layout_width="wrap_content"
+                        android:ems="4"
+                        android:layout_height="40dp" />
+
+                    <android.support.v7.widget.CardView
+                        app:cardCornerRadius="4dp"
+                        app:contentPadding="4dp"
+                        android:elevation="4dp"
+                        android:layout_marginLeft="8dp"
+                        android:backgroundTint="@color/colorAccent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:src="@drawable/ic_edit"
+                            android:tint="@color/white"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:onClick="clickFloorBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </android.support.v7.widget.CardView>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp"/>
+
+                    <Switch
+                        android:id="@+id/switch_under"
+                        android:text="지상"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="지하"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="호수"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/edit_name"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="0dp"
+                        android:inputType="number"
+                        android:textSize="16sp"
+                        android:maxLength="5"
+                        android:layout_weight="1"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:text="별칭"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <EditText
+                        android:id="@+id/edit_nick"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="0dp"
+                        android:inputType="text"
+                        android:textSize="16sp"
+                        android:maxLength="8"
+                        android:layout_weight="1"
+                        android:layout_height="40dp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_register"
+                    android:text="입주등록"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:elevation="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/White"
+                    android:textColor="@color/colorAccent"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/register_tenant"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="필수입력"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/white"
+                        android:alpha="0.3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="월세"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="관리비"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edit_monthly"
+                            android:inputType="number"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/white"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="40dp" />
+
+                        <TextView
+                            android:text="만원"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:alpha="0.7"
+                            android:layout_marginTop="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <EditText
+                            android:id="@+id/edit_maintenance"
+                            android:inputType="number"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/white"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="40dp" />
+
+                        <TextView
+                            android:text="만원"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:alpha="0.7"
+                            android:layout_marginTop="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="계약일"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="계약기간(년)"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edit_contract"
+                                android:layout_width="0dp"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:layout_height="40dp" />
+
+                            <android.support.v7.widget.CardView
+                                android:layout_gravity="center_vertical"
+                                app:cardCornerRadius="4dp"
+                                app:contentPadding="4dp"
+                                android:elevation="4dp"
+                                android:layout_marginLeft="4dp"
+                                android:backgroundTint="@color/colorAccent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:src="@drawable/ic_calendar"
+                                    android:tint="@color/white"
+                                    android:clickable="true"
+                                    android:onClick="clickContract"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp" />
+
+                            </android.support.v7.widget.CardView>
+
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/edit_period"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/white"
+                            android:inputType="number"
+                            android:textSize="16sp"
+                            android:layout_height="40dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="계약만료일"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="보증금"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edit_contract_over"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:layout_height="40dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edit_deposit"
+                                android:inputType="number"
+                                android:textSize="16sp"
+                                android:textColor="@color/white"
+                                android:backgroundTint="@color/white"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp" />
+
+                            <TextView
+                                android:text="만원"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:alpha="0.7"
+                                android:layout_marginTop="4dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="월세 납입일"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="미납계월수"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edit_payday"
+                                android:layout_width="0dp"
+                                android:clickable="false"
+                                android:focusable="false"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:layout_height="40dp" />
+
+                            <android.support.v7.widget.CardView
+                                android:layout_gravity="center_vertical"
+                                app:cardCornerRadius="4dp"
+                                app:contentPadding="4dp"
+                                android:elevation="4dp"
+                                android:layout_marginLeft="4dp"
+                                android:backgroundTint="@color/colorAccent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:src="@drawable/ic_edit"
+                                    android:tint="@color/white"
+                                    android:clickable="true"
+                                    android:onClick="clickPayday"
+                                    android:background="?attr/selectableItemBackground"
+                                    android:layout_width="26dp"
+                                    android:layout_height="26dp" />
+
+                            </android.support.v7.widget.CardView>
+
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/edit_arrear"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/white"
+                            android:inputType="number"
+                            android:textSize="16sp"
+                            android:layout_height="40dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:text="선택입력"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:layout_marginTop="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/white"
+                        android:alpha="0.3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="세입자명"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:text="핸드폰 번호"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edit_tenant_name"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:inputType="text"
+                            android:maxLength="7"
+                            android:layout_height="40dp" />
+
+                        <EditText
+                            android:id="@+id/edit_tenant_number"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:backgroundTint="@color/white"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:inputType="text"
+                            android:maxLength="7"
+                            android:layout_height="40dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:text="계약서"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv"
+                            android:src="@drawable/ic_request_image"
+                            android:scaleType="centerCrop"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            app:fabSize="mini"
+                            android:src="@drawable/ic_edit"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="8dp"
+                            android:onClick="clickPick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <!--입주등록시 펼쳐지는 창-->
+                </LinearLayout>
+
+                <!--가장 바같-->
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:text="완료"
+            android:textColor="@color/white"
+            android:padding="12dp"
+            android:clickable="true"
+            android:onClick="clickOK"
+            android:background="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</layout>

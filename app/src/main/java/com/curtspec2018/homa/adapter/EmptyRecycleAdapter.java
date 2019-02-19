@@ -42,7 +42,7 @@ public class EmptyRecycleAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 TenantActivity activity = (TenantActivity) context;
-                activity.editRoomInfo(emptyRooms.get(i));
+                activity.editRoomInfo(emptyRooms.get(i), TenantActivity.REQUEST_EDIT_EMPTY);
             }
         });
     }

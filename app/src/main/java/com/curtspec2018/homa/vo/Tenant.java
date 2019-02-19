@@ -1,8 +1,9 @@
 package com.curtspec2018.homa.vo;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Tenant {
+public class Tenant implements Serializable {
 
     private int rent;
     private int maintenanceFee;

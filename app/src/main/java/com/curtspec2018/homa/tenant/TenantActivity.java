@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.TenantPagerAdapter;
@@ -24,8 +26,9 @@ public class TenantActivity extends AppCompatActivity {
     TenantPagerAdapter adapter;
     MenuItem item;
 
-    public static final int REQUEST_EDIT_ROOM = 1;
-    public static final int REQUEST_CREATE_ROOM = 2;
+    public static final int REQUEST_EDIT_FLOOR = 1;
+    public static final int REQUEST_EDIT_EMPTY = 2;
+    public static final int REQUEST_CREATE_ROOM = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,30 @@ public class TenantActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void editRoomInfo(Room room){
-        //startActivityForResult(new Intent());
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CREATE_ROOM :
+
+                break;
+            case REQUEST_EDIT_FLOOR:
+
+                break;
+            case REQUEST_EDIT_EMPTY:
+                b.viewPager.setCurrentItem(1, true);
+                break;
+        }
     }
+
+    public void editRoomInfo(Room room, int requestCode){
+        Intent intent = new Intent(this, TenantEditActivity.class);
+        intent.putExtra("room", room);
+        startActivityForResult(intent, requestCode);
+    }
+
+    public void createRoomInfo(){
+        startActivityForResult(new Intent(this, TenantEditActivity.class), REQUEST_CREATE_ROOM);
+    }
+
 }

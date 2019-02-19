@@ -1,16 +1,16 @@
 package com.curtspec2018.homa.vo;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Room {
+public class Room implements Serializable {
 
     private String name;
     private String nickname;
     private int floor;
     private boolean isOccupied;
     private boolean isUnderGround;
-    private ArrayList<Tenant> tenants;
     private String emptyTime;
+    private Tenant tenants;
 
     public String getEmptyTime() {
         return emptyTime;
@@ -28,7 +28,7 @@ public class Room {
         this.isUnderGround = isUnderGround;
     }
 
-    public Room(String name, String nickname, int floor, boolean isOccupied, boolean isUnderGround, ArrayList<Tenant> tenants) {
+    public Room(String name, String nickname, int floor, boolean isOccupied, boolean isUnderGround, Tenant tenants) {
         this.name = name;
         this.nickname = nickname;
         this.floor = floor;
@@ -77,11 +77,11 @@ public class Room {
         isUnderGround = underGround;
     }
 
-    public ArrayList<Tenant> getTenants() {
+    public Tenant getTenants() {
         return tenants;
     }
 
-    public void setTenants(ArrayList<Tenant> tenants) {
+    public void setTenants(Tenant tenants) {
         this.tenants = tenants;
     }
 }

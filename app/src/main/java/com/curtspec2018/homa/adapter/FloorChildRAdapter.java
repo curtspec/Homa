@@ -45,7 +45,7 @@ public class FloorChildRAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 TenantActivity tenantActivity = (TenantActivity) context;
-                tenantActivity.editRoomInfo(rooms.get(i));
+                tenantActivity.editRoomInfo(rooms.get(i), TenantActivity.REQUEST_EDIT_FLOOR);
             }
         });
     }
