@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.vo.Floor;
+import com.curtspec2018.homa.vo.Room;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FloorParentsRAdapter extends RecyclerView.Adapter {
 
@@ -41,7 +43,9 @@ public class FloorParentsRAdapter extends RecyclerView.Adapter {
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         v.recyclerView.setLayoutManager(manager);
-        FloorChildRAdapter adapter = new FloorChildRAdapter(context, floors.get(i).getRooms());
+        ArrayList<Room> rooms = floors.get(i).getRooms();
+        Collections.sort(rooms);
+        FloorChildRAdapter adapter = new FloorChildRAdapter(context, rooms);
         v.recyclerView.setAdapter(adapter);
     }
 

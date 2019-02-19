@@ -89,7 +89,11 @@ public class TenantActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CREATE_ROOM :
-
+                Room room = (Room) data.getSerializableExtra("room");
+                if (room != null){
+                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+                    floorFragment.addItem(room);
+                }
                 break;
             case REQUEST_EDIT_FLOOR:
 

@@ -2,7 +2,7 @@ package com.curtspec2018.homa.vo;
 
 import java.util.ArrayList;
 
-public class Floor {
+public class Floor implements Comparable<Floor>{
 
     private int floor;
     private ArrayList<Room> rooms;
@@ -26,5 +26,10 @@ public class Floor {
 
     public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    @Override
+    public int compareTo(Floor o) {
+        return floor - o.floor;
     }
 }

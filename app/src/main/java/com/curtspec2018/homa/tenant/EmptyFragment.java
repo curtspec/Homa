@@ -16,6 +16,7 @@ import com.curtspec2018.homa.adapter.EmptyRecycleAdapter;
 import com.curtspec2018.homa.vo.Room;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class EmptyFragment extends Fragment {
 
@@ -27,12 +28,14 @@ public class EmptyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Room r = new Room("103호", "1층끝방", 1, false, false);
         emptyRoom.add(r);
+        emptyRoom.add(new Room("101호", "1층첫방", 1, false, false));
         return inflater.inflate(R.layout.frag_tenant_empty, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Collections.sort(emptyRoom);
         EmptyRecycleAdapter adapter = new EmptyRecycleAdapter(emptyRoom, getContext());
         recycler = view.findViewById(R.id.recycler);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());

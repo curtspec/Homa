@@ -30,6 +30,18 @@ public class Tenant implements Serializable {
         contractOver.set(contractOver.get(Calendar.YEAR) + period, contractOver.get(Calendar.MONTH), contractOver.get(Calendar.DAY_OF_MONTH));
     }
 
+    public Tenant(int rent, int maintenanceFee, int deposit, int payday, int arrear, Calendar contractDay, int period) {
+        this.rent = rent;
+        this.maintenanceFee = maintenanceFee;
+        this.deposit = deposit;
+        this.payday = payday;
+        this.arrear = arrear;
+        this.contractDay = contractDay;
+        this.period = period;
+        contractOver = contractDay;
+        contractOver.set(contractOver.get(Calendar.YEAR) + period, contractOver.get(Calendar.MONTH), contractOver.get(Calendar.DAY_OF_MONTH));
+    }
+
     public int getRent() {
         return rent;
     }

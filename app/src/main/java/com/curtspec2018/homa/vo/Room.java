@@ -2,7 +2,7 @@ package com.curtspec2018.homa.vo;
 
 import java.io.Serializable;
 
-public class Room implements Serializable {
+public class Room implements Serializable, Comparable<Room> {
 
     private String name;
     private String nickname;
@@ -83,5 +83,10 @@ public class Room implements Serializable {
 
     public void setTenants(Tenant tenants) {
         this.tenants = tenants;
+    }
+
+    @Override
+    public int compareTo(Room o) {
+        return name.compareTo(o.name);
     }
 }
