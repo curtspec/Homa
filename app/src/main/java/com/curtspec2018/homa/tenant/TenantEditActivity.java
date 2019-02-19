@@ -31,6 +31,7 @@ public class TenantEditActivity extends AppCompatActivity {
     Intent intent;
 
     int currentVal;
+    int currentDay;
     final static int PICK_PHOTO = 20;
 
     @Override
@@ -136,7 +137,35 @@ public class TenantEditActivity extends AppCompatActivity {
     }
 
     public void clickPayday(View view) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("날자 선택");
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_numer_picker, null);
+        NumberPicker picker = v.findViewById(R.id.number_picker);
+        picker.setMinValue(1);
+        //TODO : 건물의 층수로 max limit 걸기
+        picker.setMaxValue(28);
+        picker.setValue(15);
+        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                currentDay = newVal;
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                b.editPayday.setText(currentDay+"");
+                dialog.dismiss();
+            }
+        });
+        builder.setView(v);
+        builder.show();
     }
 
     public void clickPick(View view) {
