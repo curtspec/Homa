@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.account.AccountActivity;
 import com.curtspec2018.homa.adapter.MPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityMainBinding;
 import com.curtspec2018.homa.house.HouseActivity;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity{
                         break;
                     case R.id.menu_tenant :
                         startActivity(new Intent(MainActivity.this, TenantActivity.class));
+                        break;
+                    case R.id.menu_account:
+                        startActivity(new Intent(MainActivity.this, AccountActivity.class));
                         break;
                 }
                 return false;

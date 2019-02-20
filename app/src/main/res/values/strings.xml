@@ -4,4 +4,5 @@
     <string name="house_edit_activity_title">건물 상세 편집</string>
     <string name="tenant_activity_title">세입자 관리</string>
     <string name="tenant_edit_activity_title">세입자 정보</string>
+    <string name="account_activity_title">월세 가계부</string>
 </resources>

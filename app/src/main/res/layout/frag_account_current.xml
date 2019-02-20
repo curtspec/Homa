@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:background="@color/White"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="월세"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <TextView
+                        android:id="@+id/tv_rent"
+                        android:text="30,000,000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:gravity="right"
+                        android:textColor="@color/Black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="기타수입"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                    <TextView
+                        android:id="@+id/tv_income_etc"
+                        android:text="200,000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:gravity="right"
+                        android:textColor="@color/Black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="16dp"
+                    android:elevation="4dp"
+                    android:paddingVertical="4dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="고정수입"
+                        android:textColor="@color/Black"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_static_income"
+                        android:layout_marginLeft="4dp"
+                        android:textOn=""
+                        android:checked="true"
+                        android:textOff=""
+                        android:background="@drawable/selector_toggle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:id="@+id/tv_static_income"
+                        android:textSize="14sp"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        android:gravity="right"
+                        android:text="200,000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/listview_static_income"
+                    android:dividerHeight="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+                </ListView>
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="16dp"
+                    android:paddingVertical="4dp"
+                    android:elevation="4dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="유동수입"
+                        android:textColor="@color/Black"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ToggleButton
+                        android:id="@+id/toggle_float_income"
+                        android:layout_marginLeft="4dp"
+                        android:textOn=""
+                        android:textOff=""
+                        android:background="@drawable/selector_toggle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:id="@+id/tv_float_income"
+                        android:textSize="14sp"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        android:gravity="right"
+                        android:text="0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/listview_float_income"
+                    android:dividerHeight="0dp"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+                </ListView>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="#D7CCC8"
+                    android:paddingVertical="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="지출"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/Black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:paddingLeft="32dp"
+                        android:paddingRight="16dp"
+                        android:elevation="4dp"
+                        android:paddingVertical="4dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="고정지출"
+                            android:textSize="14sp"
+                            android:textColor="@color/Black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_static_expense"
+                            android:layout_marginLeft="4dp"
+                            android:textOn=""
+                            android:textOff=""
+                            android:background="@drawable/selector_toggle"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
+
+                        <TextView
+                            android:id="@+id/tv_static_expense"
+                            android:textSize="14sp"
+                            android:textColor="@color/Black"
+                            android:textStyle="bold"
+                            android:gravity="right"
+                            android:text="400,000"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/listview_static_expense"
+                        android:dividerHeight="0dp"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp">
+                    </ListView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:elevation="4dp"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="유동지출"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp" />
+
+                        <ToggleButton
+                            android:id="@+id/toggle_float_expense"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="4dp"
+                            android:background="@drawable/selector_toggle"
+                            android:textOff=""
+                            android:textOn="" />
+
+                        <TextView
+                            android:id="@+id/tv_float_expense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="0"
+                            android:textColor="@color/Black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/listview_float_expense"
+                        android:dividerHeight="0dp"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp">
+                    </ListView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="총 수익"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_income_total"
+                        android:text="30,200,000"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="총 지출"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_expense_total"
+                        android:text="400,000"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/Black"
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:elevation="4dp"
+                    android:background="@color/colorAccent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="순 이익"
+                        android:textSize="18sp"
+                        android:textColor="@color/White"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_pure"
+                        android:text="400,000"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/White"
+                        android:gravity="right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/btm_navi_account"
+            app:itemIconTint="@color/White"
+            app:itemTextColor="@color/White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.design.widget.BottomNavigationView>
+
+    </RelativeLayout>
+
+</layout>

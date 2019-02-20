@@ -17,7 +17,7 @@
         <item
             android:icon="@drawable/ic_payday"
             android:title="월세 가계부"
-            android:id="@+id/menu_pay"/>
+            android:id="@+id/menu_account"/>
 
         <item
             android:icon="@drawable/ic_memo"

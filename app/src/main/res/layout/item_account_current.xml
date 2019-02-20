@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    android:background="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:paddingVertical="4dp"
+    android:layout_height="30dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:text="한글은 16자 max입니다."
+        android:layout_marginLeft="48dp"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:text="200,000"
+        android:textSize="14sp"
+        android:textColor="@color/White"
+        android:textStyle="bold"
+        android:gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
