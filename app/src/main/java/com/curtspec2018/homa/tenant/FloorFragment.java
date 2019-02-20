@@ -1,6 +1,5 @@
 package com.curtspec2018.homa.tenant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,10 +14,10 @@ import android.widget.LinearLayout;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.FloorParentsRAdapter;
+import com.curtspec2018.homa.adapter.RecyclerVerticalDeco;
 import com.curtspec2018.homa.vo.Floor;
 import com.curtspec2018.homa.vo.Room;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -63,6 +62,7 @@ public class FloorFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(manager);
         emptyView = view.findViewById(R.id.empty_view);
+        recyclerView.addItemDecoration(new RecyclerVerticalDeco());
 
         fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,20 +83,54 @@ public class FloorFragment extends Fragment {
 
     public void addItem(Room room){
         int floor = room.getFloor();
-        int cnt = -1;
+        int index = -1;
         for (int i = 0; i< floors.size(); i++){
             if (floors.get(i).getFloor() == floor){
-                cnt = i;
+                index = i;
                 break;
             }
         }
-        if (cnt < 0) {
+        if (index < 0) {
             ArrayList<Room> rooms = new ArrayList<>();
             rooms.add(room);
             floors.add(new Floor(floor, rooms));
+            adapter.notifyDataSetChanged();
         }else {
-            floors.get(cnt).getRooms().add(room);
+            floors.get(index).getRooms().add(room);
+            adapter.notifyItemChanged(index);
         }
     }
 
+    public void editItem(Room room, int position){
+        int floor = room.getFloor();
+        int index = -1;
+        for (int i = 0; i< floors.size(); i++){
+            if (floors.get(i).getFloor() == floor){
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0){
+            ArrayList<Room> rooms = floors.get(index).getRooms();
+            rooms.remove(position);
+            rooms.add(position, room);
+            adapter.adapter.notifyItemChanged(position);
+        }
+    }
+
+    public void deleteItem(Room room, int position){
+        int floor = room.getFloor();
+        int index = -1;
+        for (int i = 0; i< floors.size(); i++){
+            if (floors.get(i).getFloor() == floor){
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0){
+            ArrayList<Room> rooms = floors.get(index).getRooms();
+            rooms.remove(position);
+            adapter.adapter.notifyDataSetChanged();
+        }
+    }
 }

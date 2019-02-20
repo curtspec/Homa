@@ -22,6 +22,7 @@ public class FloorParentsRAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<Floor> floors;
+    public FloorChildRAdapter adapter;
 
     public FloorParentsRAdapter(Context context, ArrayList<Floor> floors) {
         this.context = context;
@@ -45,7 +46,7 @@ public class FloorParentsRAdapter extends RecyclerView.Adapter {
         v.recyclerView.setLayoutManager(manager);
         ArrayList<Room> rooms = floors.get(i).getRooms();
         Collections.sort(rooms);
-        FloorChildRAdapter adapter = new FloorChildRAdapter(context, rooms);
+        adapter = new FloorChildRAdapter(context, rooms);
         v.recyclerView.setAdapter(adapter);
     }
 

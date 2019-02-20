@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -14,6 +17,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -45,10 +51,10 @@ public class TenantEditActivity extends AppCompatActivity {
         b = DataBindingUtil.setContentView(this, R.layout.activity_tenant_edit);
 
         setSupportActionBar(b.toolbar);
+        intent = getIntent();
         getSupportActionBar().setTitle(R.string.tenant_edit_activity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        intent = getIntent();
         initViewsValue();
         b.toolbar.setFocusableInTouchMode(true);
         b.toolbar.requestFocus();
@@ -81,6 +87,47 @@ public class TenantEditActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        String type = intent.getStringExtra("type");
+        if (type.equals("new")) return true;
+        getMenuInflater().inflate(R.menu.house_edit, menu);
+        Drawable drawable = menu.getItem(0).getIcon();
+        if (drawable != null){
+            drawable.mutate().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("정말 삭제하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("delete", true);
+                        if (room != null){
+                            intent.putExtra("room", room);
+                        }
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show().setCanceledOnTouchOutside(false);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

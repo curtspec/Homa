@@ -13,7 +13,6 @@ import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.TenantPagerAdapter;
@@ -25,6 +24,8 @@ public class TenantActivity extends AppCompatActivity {
     ActivityTenantBinding b;
     TenantPagerAdapter adapter;
     MenuItem item;
+
+    int requestedItemPosition;
 
     public static final int REQUEST_EDIT_FLOOR = 1;
     public static final int REQUEST_EDIT_EMPTY = 2;
@@ -87,31 +88,50 @@ public class TenantActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        Room room = (Room) data.getSerializableExtra("room");
+        boolean isDelete = data.getBooleanExtra("delete", false);
         switch (requestCode){
             case REQUEST_CREATE_ROOM :
-                Room room = (Room) data.getSerializableExtra("room");
-                if (room != null){
+                if (resultCode == RESULT_OK && room != null){
                     FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
                     floorFragment.addItem(room);
                 }
                 break;
             case REQUEST_EDIT_FLOOR:
-
+                if (resultCode == RESULT_OK && room != null && !isDelete){
+                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+                    floorFragment.editItem(room, requestedItemPosition);
+                }else if (resultCode == RESULT_OK && room != null && isDelete){
+                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+                    floorFragment.deleteItem(room, requestedItemPosition);
+                }
                 break;
             case REQUEST_EDIT_EMPTY:
                 b.viewPager.setCurrentItem(1, true);
+                if (resultCode == RESULT_OK && room != null && !isDelete){
+                    EmptyFragment emptyFragment = (EmptyFragment) adapter.getItem(1);
+                    emptyFragment.editItem(room, requestedItemPosition);
+                }else if (resultCode == RESULT_OK && room != null && isDelete){
+                    EmptyFragment emptyFragment = (EmptyFragment) adapter.getItem(1);
+                    emptyFragment.deleteItem(room, requestedItemPosition);
+                }
                 break;
         }
     }
 
-    public void editRoomInfo(Room room, int requestCode){
+    public void editRoomInfo(Room room, int requestCode, int position){
         Intent intent = new Intent(this, TenantEditActivity.class);
+        intent.putExtra("type", "edit");
         intent.putExtra("room", room);
         startActivityForResult(intent, requestCode);
+        requestedItemPosition = position;
     }
 
     public void createRoomInfo(){
-        startActivityForResult(new Intent(this, TenantEditActivity.class), REQUEST_CREATE_ROOM);
+        Intent intent = new Intent(this, TenantEditActivity.class);
+        intent.putExtra("type", "new");
+        startActivityForResult(intent, REQUEST_CREATE_ROOM);
     }
 
 }
