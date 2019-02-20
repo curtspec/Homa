@@ -20,8 +20,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -84,9 +86,17 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
         setListviewHeight(listFI, adapterFI);
         setListviewHeight(listSE, adapterSE);
         setListviewHeight(listFE, adapterFE);
+
         synchToggleAndListview(view);
+        resetValues(view);
+
         BottomNavigationView btmNavi = view.findViewById(R.id.bottom_navigation);
         btmNavi.setOnNavigationItemSelectedListener(this);
+    }
+
+    private void resetValues(View v){
+        TextView tvStaticIncome = v.findViewById(R.id.tv_static_income);
+        //TODO :...
     }
 
     private void setListviewHeight(ListView list, CurrentListAdapter adapter){
@@ -134,64 +144,171 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
         });
     }
 
+    public void showIncomeDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = inflater.inflate(R.layout.dialog_current, null);
+
+        final ListView listView = v.findViewById(R.id.list);
+        final RadioGroup rg = v.findViewById(R.id.rg);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_static) {
+                    listView.setAdapter(adapterSI);
+                }
+                else listView.setAdapter(adapterFI);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                popupMenu.inflate(R.menu.house_edit);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_delete:
+                                if (rg.getCheckedRadioButtonId() == R.id.rb_static){
+                                    staticIncome.remove(position);
+                                    adapterSI.notifyDataSetChanged();
+                                    setListviewHeight(listSI, adapterSI);
+                                }else {
+                                    floatIncome.remove(position);
+                                    adapterFI.notifyDataSetChanged();
+                                    setListviewHeight(listFI, adapterFI);
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+                return true;
+            }
+        });
+        RadioButton rbStatic = v. findViewById(R.id.rb_static);
+        rbStatic.setChecked(true);
+        final EditText editTitle = v.findViewById(R.id.edit_title);
+        final EditText editAmount = v.findViewById(R.id.edit_amount);
+        ImageView btnAdd = v.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = editTitle.getText().toString();
+                String amount = editAmount.getText().toString();
+                if (title.equals("") || amount.equals("")) return;
+                if(rg.getCheckedRadioButtonId() == R.id.rb_static){
+                    staticIncome.add(0,new Account(title, Integer.parseInt(amount)));
+                    adapterSI.notifyDataSetChanged();
+                    setListviewHeight(listSI, adapterSI);
+                }else {
+                    floatIncome.add(0,new Account(title, Integer.parseInt(amount)));
+                    adapterFI.notifyDataSetChanged();
+                    setListviewHeight(listFI, adapterFI);
+                }
+            }
+        });
+        builder.setView(v);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                listSI.invalidate();
+                listFI.invalidate();
+            }
+        });
+        builder.show().setCanceledOnTouchOutside(false);
+    }
+
+    public void showExpenseDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = inflater.inflate(R.layout.dialog_current, null);
+
+        final ListView listView = v.findViewById(R.id.list);
+        final RadioGroup rg = v.findViewById(R.id.rg);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rb_static) {
+                    listView.setAdapter(adapterSE);
+                }
+                else listView.setAdapter(adapterFE);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                popupMenu.inflate(R.menu.house_edit);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_delete:
+                                if (rg.getCheckedRadioButtonId() == R.id.rb_static){
+                                    staticExpense.remove(position);
+                                    adapterSE.notifyDataSetChanged();
+                                    setListviewHeight(listSE, adapterSE);
+                                }else {
+                                    floatExpense.remove(position);
+                                    adapterFE.notifyDataSetChanged();
+                                    setListviewHeight(listFE, adapterFE);
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+                return true;
+            }
+        });
+        RadioButton rbStatic = v. findViewById(R.id.rb_static);
+        rbStatic.setChecked(true);
+        final EditText editTitle = v.findViewById(R.id.edit_title);
+        final EditText editAmount = v.findViewById(R.id.edit_amount);
+        ImageView btnAdd = v.findViewById(R.id.btn_add);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = editTitle.getText().toString();
+                String amount = editAmount.getText().toString();
+                if (title.equals("") || amount.equals("")) return;
+                if(rg.getCheckedRadioButtonId() == R.id.rb_static){
+                    staticExpense.add(new Account(title, Integer.parseInt(amount)));
+                    adapterSE.notifyDataSetChanged();
+                    setListviewHeight(listSE, adapterSE);
+                }else {
+                    floatExpense.add(new Account(title, Integer.parseInt(amount)));
+                    adapterFE.notifyDataSetChanged();
+                    setListviewHeight(listFE, adapterFE);
+                }
+            }
+        });
+        builder.setView(v);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show().setCanceledOnTouchOutside(false);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.menu_add_income:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                View v = inflater.inflate(R.layout.dialog_current, null);
-
-                final ListView listView = v.findViewById(R.id.list);
-                final RadioGroup rg = v.findViewById(R.id.rg);
-                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        if (checkedId == R.id.rb_static) {
-                            listView.setAdapter(adapterSI);
-                        }
-                        else listView.setAdapter(adapterFI);
-                    }
-                });
-                listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        //TODO : 만들자...
-                        return true;
-                    }
-                });
-
-                RadioButton rbStatic = v. findViewById(R.id.rb_static);
-                rbStatic.setChecked(true);
-                final EditText editTitle = v.findViewById(R.id.edit_title);
-                final EditText editAmount = v.findViewById(R.id.edit_amount);
-                ImageView btnAdd = v.findViewById(R.id.btn_add);
-                btnAdd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String title = editTitle.getText().toString();
-                        String amount = editAmount.getText().toString();
-                        if (title.equals("") || amount.equals("")) return;
-                        if(rg.getCheckedRadioButtonId() == R.id.rb_static){
-                            staticIncome.add(new Account(title, Integer.parseInt(amount)));
-                            adapterSI.notifyDataSetChanged();
-                        }else {
-                            floatIncome.add(new Account(title, Integer.parseInt(amount)));
-                            adapterFI.notifyDataSetChanged();
-                        }
-                    }
-                });
-
-                builder.setView(v);
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show().setCanceledOnTouchOutside(false);
+                showIncomeDialog();
                 break;
             case R.id.menu_add_expense:
-
+                showExpenseDialog();
                 break;
             case R.id.menu_capture:
 

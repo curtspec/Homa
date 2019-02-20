@@ -137,4 +137,13 @@
         android:layout_height="120dp">
     </ListView>
 
+    <TextView
+        android:text="길게 누르면 힝목을 삭제 할 수 있습니다"
+        android:textSize="13sp"
+        android:textColor="#777777"
+        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
