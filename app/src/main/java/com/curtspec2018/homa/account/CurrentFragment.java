@@ -42,6 +42,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
     ListView listFI;
     ListView listSE;
     ListView listFE;
+    TextView tvSI, tvFI, tvSE, tvFE;
 
     CurrentListAdapter adapterSI;
     CurrentListAdapter adapterFI;
@@ -87,16 +88,33 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
         setListviewHeight(listSE, adapterSE);
         setListviewHeight(listFE, adapterFE);
 
+        tvSI = view.findViewById(R.id.tv_static_income);
+        tvFI = view.findViewById(R.id.tv_float_income);
+        tvSE = view.findViewById(R.id.tv_static_expense);
+        tvFE = view.findViewById(R.id.tv_float_expense);
+
         synchToggleAndListview(view);
-        resetValues(view);
+        resetValues();
 
         BottomNavigationView btmNavi = view.findViewById(R.id.bottom_navigation);
         btmNavi.setOnNavigationItemSelectedListener(this);
     }
 
-    private void resetValues(View v){
-        TextView tvStaticIncome = v.findViewById(R.id.tv_static_income);
-        //TODO :...
+    private void resetValues(){
+        int amount = 0;
+        for (Account t : staticIncome) amount += t.getAmount();
+        tvSI.setText(amount+"");
+        amount = 0;
+        for (Account t : floatIncome) amount += t.getAmount();
+        tvFI.setText(amount+"");
+        amount = 0;
+        for (Account t : staticExpense) amount += t.getAmount();
+        tvSE.setText(amount+"");
+        amount = 0;
+        for (Account t : floatExpense) amount += t.getAmount();
+        tvFE.setText(amount+"");
+
+        //TODO : 
     }
 
     private void setListviewHeight(ListView list, CurrentListAdapter adapter){
