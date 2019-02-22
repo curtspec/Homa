@@ -25,6 +25,6 @@ public class AccountActivity extends AppCompatActivity {
         adapter = new AccountPagerAdapter(getSupportFragmentManager());
         b.viewPager.setAdapter(adapter);
         b.tab.setupWithViewPager(b.viewPager);
-
+        b.viewPager.setCurrentItem(1);
     }
 }

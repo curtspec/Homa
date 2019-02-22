@@ -20,15 +20,14 @@
             android:id="@+id/menu_account"/>
 
         <item
+            android:icon="@drawable/ic_sms"
+            android:title="SMS/문자"
+            android:id="@+id/menu_sms"/>
+
+        <item
             android:icon="@drawable/ic_memo"
             android:title="메모/일정"
             android:id="@+id/menu_memo"/>
-
-
-        <item
-            android:icon="@drawable/ic_mega"
-            android:title="공지 관리"
-            android:id="@+id/menu_noti"/>
 
         <item
             android:icon="@drawable/ic_complaint"

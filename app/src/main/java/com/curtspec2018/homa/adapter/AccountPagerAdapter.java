@@ -13,12 +13,12 @@ import com.curtspec2018.homa.account.MonthlyFragment;
 public class AccountPagerAdapter extends FragmentPagerAdapter {
 
     Fragment[] frags = new Fragment[3];
-    String[] titles = new String[]{"이번달", "월별", "전체기간"};
+    String[] titles = new String[]{"월별", "이번달", "전체기간"};
 
     public AccountPagerAdapter(FragmentManager fm) {
         super(fm);
-        frags[0] = new CurrentFragment();
-        frags[1] = new MonthlyFragment();
+        frags[0] = new MonthlyFragment();
+        frags[1] = new CurrentFragment();
         frags[2] = new EntireFragment();
     }
 
