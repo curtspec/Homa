@@ -90,6 +90,8 @@ public class EntireFragment extends Fragment {
         xAxis.setAxisMaximum(data.getXMax() + 0.5f);
         xAxis.setAxisMinimum(data.getXMin() - 0.5f);
 
+
+
     }
 
     public LineData getLineData(){

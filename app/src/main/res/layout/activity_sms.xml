@@ -99,38 +99,45 @@
                 <ImageView
                     android:clickable="true"
                     android:onClick="clickAdd"
-                    android:src="@drawable/ic_search"
+                    android:src="@drawable/ic_people"
                     android:tint="@color/White"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:padding="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
         <ListView
             android:id="@+id/listview"
-            android:background="#dddddd"
+            android:background="#ececec"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="100dp">
         </ListView>
 
-        <EditText
-            android:id="@+id/edit_msg"
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:elevation="8dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:background="@color/colorAccent"
-            android:gravity="top"
-            android:textColorHint="@color/White"
-            android:lines="10"
-            android:maxLines="10"
-            android:textSize="16sp"
-            android:textColor="@color/White"
-            android:hint="메세지를 입력하세요."
-            android:padding="8dp"
-            android:inputType="textMultiLine"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_msg"
+                android:gravity="top"
+                android:lines="10"
+                android:background="#ececec"
+                android:maxLines="10"
+                android:textSize="15sp"
+                android:hint="연락 부탁드립니다."
+                android:padding="16dp"
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/tv_limit"
@@ -147,18 +154,40 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <TextView
-            android:text="완료"
-            android:textColor="@color/white"
-            android:padding="12dp"
+        <RelativeLayout
+            android:orientation="vertical"
+            android:background="@color/colorPrimaryDark"
             android:clickable="true"
             android:onClick="clickOK"
-            android:background="@color/colorPrimaryDark"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="12dp"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="보내기"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:src="@drawable/ic_send"
+                    android:layout_marginLeft="8dp"
+                    android:tint="@color/White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 </layout>

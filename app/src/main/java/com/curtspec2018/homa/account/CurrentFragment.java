@@ -114,7 +114,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
         for (Account t : floatExpense) amount += t.getAmount();
         tvFE.setText(amount+"");
 
-        //TODO : 
+        //TODO :
     }
 
     private void setListviewHeight(ListView list, CurrentListAdapter adapter){

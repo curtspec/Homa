@@ -39,8 +39,9 @@ public class SmsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) convertView = inflater.inflate(R.layout.item_acount_entire, parent, false);
+        if (convertView == null) convertView = inflater.inflate(R.layout.item_sms, parent, false);
 
+        convertView.setBackgroundResource(targets.get(position).isSelected ? R.color.colorAccent : R.color.colorPrimary);
         TextView tvName = convertView.findViewById(R.id.tv_name);
         TextView tvTenantName = convertView.findViewById(R.id.tv_tenant_name);
         TextView tvTenantNumber = convertView.findViewById(R.id.tv_tenant_number);
