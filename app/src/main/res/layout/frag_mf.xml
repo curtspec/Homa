@@ -15,28 +15,45 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 app:eventsEnabled="true"
+                app:selectionColor="@color/colorAccent"
+                app:todayLabelColor="@color/colorAccent"
                 app:headerColor="@color/White"
                 app:headerLabelColor="@color/Black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </com.applandeo.materialcalendarview.CalendarView>
 
+            <TextView
+                android:id="@+id/tv_date"
+                android:text="2019.02.02"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_below="@id/calendar"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/White"
+                android:background="@color/colorPrimaryDark"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <ListView
                 android:id="@+id/listview"
                 android:divider="#00ffffff"
-                android:dividerHeight="8dp"
-                android:layout_below="@id/calendar"
+                android:dividerHeight="4dp"
+                android:layout_below="@id/tv_date"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="150dp">
             </ListView>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
-                app:fabSize="mini"
+                app:fabSize="normal"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
                 android:layout_alignBottom="@id/calendar"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

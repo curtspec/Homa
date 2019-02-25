@@ -30,11 +30,6 @@
             android:id="@+id/menu_memo"/>
 
         <item
-            android:icon="@drawable/ic_complaint"
-            android:title="민원 관리"
-            android:id="@+id/menu_complaint"/>
-
-        <item
             android:icon="@drawable/ic_setting"
             android:title="설정"
             android:id="@+id/menu_setting"/>

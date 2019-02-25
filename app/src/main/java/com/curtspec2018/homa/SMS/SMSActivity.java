@@ -109,16 +109,6 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                if (addable.size() == 0) {
-//                    b.switchType.setChecked(true);
-//                    initLists();
-//                    dialog.dismiss();
-//                    return;
-//                }else if(b.switchType.isChecked() && addable.size() > 0){
-//                    b.switchType.setChecked(false);
-//                }
-//                else {
-//                }
                 targets = added;
                 adapter.notifyDataSetChanged();
                 b.tvNum.setText(targets.size() + "명");
