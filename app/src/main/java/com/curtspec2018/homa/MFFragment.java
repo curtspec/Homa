@@ -1,6 +1,7 @@
 package com.curtspec2018.homa;
 
-import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,60 +10,48 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.curtspec2018.homa.databinding.FragMfBinding;
-import com.riontech.calendar.dao.EventData;
-import com.riontech.calendar.dao.dataAboutDate;
+import com.applandeo.materialcalendarview.CalendarUtils;
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MFFragment extends Fragment {
 
-    FragMfBinding b;
     FloatingActionButton fab;
+    CalendarView calendar;
+
     LayoutInflater inflater;
 
-    int year, month, day;
+    Calendar today;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        b= DataBindingUtil.inflate(inflater, R.layout.frag_mf, container, false);
-        b.setFrag(this);
         this.inflater = inflater;
         return inflater.inflate(R.layout.frag_mf, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        today = Calendar.getInstance();
+        calendar = view.findViewById(R.id.calendar);
+        fab = view.findViewById(R.id.fab);
 
-        //=========================================================test data set=============================================================
-        ArrayList<EventData> eventDataList  = new ArrayList<>();
+        Drawable d = CalendarUtils.getDrawableText(getContext(), today.get(Calendar.DAY_OF_MONTH) + "",
+                Typeface.DEFAULT, R.color.White, (int) G.dpToPx(5, getContext()));
+        fab.setImageDrawable(d);
 
-        EventData eventData = new EventData();
-        ArrayList<dataAboutDate> dataAboutDates = new ArrayList<>();
-
-        dataAboutDate dates = new dataAboutDate();
-        dates.setTitle("Test title");
-        dates.setSubject("today's work to do");
-        dates.setSubmissionDate("submission Date? what it is?");
-        dataAboutDates.add(dates);
-
-        eventData.setSection("what's the section?");
-        eventData.setData(dataAboutDates);
-
-        eventDataList.add(eventData);
-
-        b.calendar.addAnEvent("2019-02-01", 1, eventDataList);
-        //=========================================================test data set=============================================================
-
+        try {
+            calendar.setDate(today);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
 
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        b.calendar.invalidate();
-    }
 }

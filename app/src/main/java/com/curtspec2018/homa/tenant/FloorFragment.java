@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.FloorParentsRAdapter;
@@ -127,10 +128,13 @@ public class FloorFragment extends Fragment {
                 break;
             }
         }
+        Toast.makeText(getContext(), index +"", Toast.LENGTH_SHORT).show();
         if (index >= 0){
             ArrayList<Room> rooms = floors.get(index).getRooms();
             rooms.remove(position);
             adapter.adapter.notifyDataSetChanged();
+            if (rooms.size() == 0) floors.remove(index);
+            adapter.notifyItemChanged(index);
         }
     }
 }

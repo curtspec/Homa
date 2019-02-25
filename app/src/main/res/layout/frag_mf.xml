@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="frag"
-            type="com.curtspec2018.homa.MFFragment"/>
-    </data>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,19 +9,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.riontech.calendar.CustomCalendar
+            <com.applandeo.materialcalendarview.CalendarView
                 android:id="@+id/calendar"
-                app:endMonth="07"
-                app:endYear="2040"
-                app:startMonth="01"
-                app:startYear="2016"
+                app:type="one_day_picker"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:eventsEnabled="true"
+                app:headerColor="@color/White"
+                app:headerLabelColor="@color/Black"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.riontech.calendar.CustomCalendar>
+                android:layout_height="wrap_content">
+            </com.applandeo.materialcalendarview.CalendarView>
+
+            <ListView
+                android:id="@+id/listview"
+                android:divider="#00ffffff"
+                android:dividerHeight="8dp"
+                android:layout_below="@id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                app:fabSize="mini"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_alignBottom="@id/calendar"
+                android:layout_marginBottom="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
-
     </android.support.v4.widget.NestedScrollView>
-
-
 </layout>
