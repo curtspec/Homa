@@ -53,7 +53,7 @@ public class MemoEditActivity extends AppCompatActivity{
                  else fabShow();
              }
          });
-         
+
     }
 
     public void clickOK(View view) {
