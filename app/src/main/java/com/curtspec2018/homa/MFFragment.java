@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarUtils;
 import com.applandeo.materialcalendarview.CalendarView;
@@ -46,6 +47,7 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
     MFFragListAdapter adapter;
 
     ArrayList<Schedule> addable = new ArrayList<>();
+    ArrayList<EventDay> eventDays = new ArrayList<>();
 
     @Nullable
     @Override
@@ -54,8 +56,53 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         today = Calendar.getInstance();
         currentDay = today;
         adapter = new MFFragListAdapter(getLayoutInflater(), schedules);
+
+        //test data
+        Calendar d = Calendar.getInstance();
+        d.set(2019,1,22);
+        addable.add(Schedule.getInstanceFromTenant(d, "202", Schedule.TYPE_PAYDAY));
+        addable.add(Schedule.getInstanceFromTenant(d, "202", Schedule.TYPE_PAYDAY));
+        addable.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "주연이랑", "데이트하는날"));
+
         setData(today);
+        for (Schedule t : addable){  checkMulti(t.getDate()); }
+        for (Tmp t : tmp){
+            switch (t.cnt){
+                case 1:
+                    eventDays.add(new EventDay(t.day, R.drawable.ic_calendar_dot1));
+                    break;
+                case 2:
+                    eventDays.add(new EventDay(t.day, R.drawable.ic_calendar_dot2));
+                    break;
+                case 3:
+                    eventDays.add(new EventDay(t.day, R.drawable.ic_calendar_dot3));
+                    break;
+                default:
+                    eventDays.add(new EventDay(t.day, R.drawable.ic_calendar_dot4));
+                    break;
+            }
+        }
+
         return inflater.inflate(R.layout.frag_mf, container, false);
+    }
+
+    class Tmp{
+        Calendar day;
+        int cnt = 1;
+
+        public Tmp(Calendar day) {
+            this.day = day;
+        }
+    }
+
+    ArrayList<Tmp> tmp = new ArrayList<>();
+    private void checkMulti(Calendar d){
+        int index = -1;
+        for (int i = 0; i < tmp.size(); i ++){
+            if (equalDay(tmp.get(i).day, d)) index = i;
+        }
+        if (index < 0) tmp.add(new Tmp(d));
+        else tmp.get(index).cnt++;
     }
 
     @Override
@@ -98,6 +145,7 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         });
         calendar.setOnPreviousPageChangeListener(this);
         calendar.setOnForwardPageChangeListener(this);
+        calendar.setEvents(eventDays);
 
         try { calendar.setDate(today); } catch (OutOfDateRangeException e) { e.printStackTrace(); }
         super.onViewCreated(view, savedInstanceState);
@@ -173,9 +221,11 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
     }
 
     private void setData(Calendar selected){
+        schedules.clear();
         for (Schedule t: addable){
             if (equalDay(t.getDate(), selected)) schedules.add(t);
         }
         adapter.notifyDataSetChanged();
+        if (listView != null) setListviewHeight(listView, adapter);
     }
 }
