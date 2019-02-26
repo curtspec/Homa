@@ -40,7 +40,9 @@
         <activity
             android:name=".memo.MemoActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".memo.MemoEditActivity"></activity>
+        <activity android:name=".memo.MemoEditActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".memo.MemoActivity"></activity>
     </application>
 
 </manifest>

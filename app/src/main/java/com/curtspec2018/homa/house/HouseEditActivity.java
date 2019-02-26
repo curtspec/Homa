@@ -105,7 +105,7 @@ public class HouseEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (type.equals("new")) return false;
+        if (type.equals("new")) return true;
         getMenuInflater().inflate(R.menu.house_edit, menu);
         Drawable drawable = menu.getItem(0).getIcon();
         if (drawable != null){
