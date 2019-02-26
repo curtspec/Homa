@@ -17,6 +17,7 @@ import com.curtspec2018.homa.account.AccountActivity;
 import com.curtspec2018.homa.adapter.MPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityMainBinding;
 import com.curtspec2018.homa.house.HouseActivity;
+import com.curtspec2018.homa.memo.MemoActivity;
 import com.curtspec2018.homa.tenant.TenantActivity;
 
 public class MainActivity extends AppCompatActivity{
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity{
                         break;
                     case R.id.menu_sms:
                         startActivity(new Intent(MainActivity.this, SMSActivity.class));
+                        break;
+                    case R.id.menu_memo:
+                        startActivity(new Intent(MainActivity.this, MemoActivity.class));
                         break;
                 }
                 return false;
