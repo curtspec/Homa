@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.FloorParentsRAdapter;
 import com.curtspec2018.homa.adapter.RecyclerVerticalDeco;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.Floor;
 import com.curtspec2018.homa.vo.Room;
 
@@ -30,23 +32,28 @@ public class FloorFragment extends Fragment {
     FloatingActionButton fab;
     FloorParentsRAdapter adapter;
 
+    Building currentBuilding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        // ===================================== testdata =====================================
-        ArrayList<Room> rooms = new ArrayList<>();
-        Room r = new Room("202호", "2층 첫방", 2, false, false);
-        Room r2 = new Room("203호", "2층 두번째방", 2, false, false);
-        rooms.add(r);
-        rooms.add(r2);
-        rooms.add(new Room("205호", "2층 두번째방", 2, false, false));
-        rooms.add(new Room("209호", "2층 끝방", 2, false, false));
-        rooms.add(new Room("208호", "2층 두번째방", 2, false, false));
-        rooms.add(new Room("201호", "2층 두번째방", 2, false, false));
-        rooms.add(new Room("204호", "2층 두번째방", 2, false, false));
-        floors.add(new Floor(2, rooms));
-        // ===================================== testdata =====================================
+        currentBuilding = G.getCurrentBuilding();
+        if (currentBuilding != null) floors = currentBuilding.getFloors();
+
+//        // ===================================== testdata =====================================
+//        ArrayList<Room> rooms = new ArrayList<>();
+//        Room r = new Room("202호", "2층 첫방", 2, false, false);
+//        Room r2 = new Room("203호", "2층 두번째방", 2, false, false);
+//        rooms.add(r);
+//        rooms.add(r2);
+//        rooms.add(new Room("205호", "2층 두번째방", 2, false, false));
+//        rooms.add(new Room("209호", "2층 끝방", 2, false, false));
+//        rooms.add(new Room("208호", "2층 두번째방", 2, false, false));
+//        rooms.add(new Room("201호", "2층 두번째방", 2, false, false));
+//        rooms.add(new Room("204호", "2층 두번째방", 2, false, false));
+//        floors.add(new Floor(2, rooms));
+//        // ===================================== testdata =====================================
 
         return inflater.inflate(R.layout.frag_tenant_fllor, container, false);
     }

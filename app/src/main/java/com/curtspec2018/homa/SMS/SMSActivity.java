@@ -92,6 +92,7 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
                     adapter.notifyDataSetChanged();
                 }
                 b.tvNum.setText(targets.size() + "명");
+                Toast.makeText(SMSActivity.this, targets.size() + "", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -109,17 +110,24 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                targets = added;
+                targets.clear();
+                targets.addAll(added);
                 adapter.notifyDataSetChanged();
                 b.tvNum.setText(targets.size() + "명");
                 initLists();
                 dialog.dismiss();
+                Toast.makeText(SMSActivity.this, added.size() + "", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 initLists();
+                /*addable.addAll(added);
+                added.clear();
+                added.addAll(targets);
+                addable.removeAll(targets);*/
+
                 dialog.dismiss();
             }
         });
@@ -189,6 +197,7 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         from.removeAll(selected);
         addableAdapter.notifyDataSetChanged();
         addedAdapter.notifyDataSetChanged();
+        Toast.makeText(this, selected.size() + ", " + to.size(), Toast.LENGTH_SHORT).show();
     }
 
 

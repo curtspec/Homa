@@ -6,7 +6,4 @@
     <item android:id="@+id/menu_add_expense"
         android:icon="@drawable/ic_expense"
         android:title="지출관리"/>
-    <item android:id="@+id/menu_capture"
-        android:icon="@drawable/ic_capture"
-        android:title="저장"/>
 </menu>

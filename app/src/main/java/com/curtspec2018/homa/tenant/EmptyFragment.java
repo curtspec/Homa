@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.EmptyRecycleAdapter;
 import com.curtspec2018.homa.adapter.RecyclerVerticalDeco;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.Room;
 
 import java.util.ArrayList;
@@ -26,12 +28,15 @@ public class EmptyFragment extends Fragment {
     RecyclerView recycler;
     EmptyRecycleAdapter adapter;
 
+    Building currentBuilding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Room r = new Room("103호", "1층끝방", 1, false, false);
-        emptyRoom.add(r);
-        emptyRoom.add(new Room("101호", "1층첫방", 1, false, false));
+
+        currentBuilding = G.getCurrentBuilding();
+        if (currentBuilding != null) emptyRoom = currentBuilding.getEmptyRoom();
+
         return inflater.inflate(R.layout.frag_tenant_empty, container, false);
     }
 
@@ -64,9 +69,12 @@ public class EmptyFragment extends Fragment {
             emptyRoom.add(position, room);
             adapter.notifyItemChanged(position);
         }
+        if (currentBuilding != null) currentBuilding.setRoom(room);
     }
 
     public void deleteItem(Room room, int position){
+        if (currentBuilding != null) currentBuilding.removeRoom(room);
+
         emptyRoom.remove(position);
         adapter.notifyDataSetChanged();
     }

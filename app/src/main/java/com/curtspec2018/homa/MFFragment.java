@@ -57,12 +57,7 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         currentDay = today;
         adapter = new MFFragListAdapter(getLayoutInflater(), schedules);
 
-        //test data
-        Calendar d = Calendar.getInstance();
-        d.set(2019,1,22);
-        addable.add(Schedule.getInstanceFromTenant(d, "202", Schedule.TYPE_PAYDAY));
-        addable.add(Schedule.getInstanceFromTenant(d, "202", Schedule.TYPE_PAYDAY));
-        addable.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "주연이랑", "데이트하는날"));
+        addable = G.getAddable();
 
         setData(today);
         for (Schedule t : addable){  checkMulti(t.getDate()); }
@@ -116,6 +111,12 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         listView.setAdapter(adapter);
         setListviewHeight(listView, adapter);
 
+        Calendar max = Calendar.getInstance();
+        max.set(today.get(Calendar.YEAR) + 1, today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+        calendar.setMaximumDate(max);
+        Calendar min = Calendar.getInstance();
+        min.set(today.get(Calendar.YEAR) - 1, today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+        calendar.setMinimumDate(min);
 //        Drawable d = CalendarUtils.getDrawableText(getContext(), today.get(Calendar.DAY_OF_MONTH) + "",
 //                Typeface.DEFAULT, R.color.White, (int)G.dpToPx(7, getContext()));
 //        fab.setImageDrawable(d);

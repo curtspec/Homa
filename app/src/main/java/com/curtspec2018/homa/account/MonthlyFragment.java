@@ -42,10 +42,7 @@ public class MonthlyFragment extends Fragment implements AdapterView.OnItemClick
         adapter = new MonthlyListAdapter(inflater, monthAccounts);
         this.inflater = inflater;
 
-        //Test data.
-        monthAccounts.add(new MonthAccount("2019.01", 0, new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>()));
-        monthAccounts.add(new MonthAccount("2019.01", 0, new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>()));
-        monthAccounts.add(new MonthAccount("2019.01", 0, new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>(), new ArrayList<Account>()));
+
 
         return inflater.inflate(R.layout.frag_account_monthly, container, false);
     }

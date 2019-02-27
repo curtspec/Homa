@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ActivityHouseEditBinding;
+import com.curtspec2018.homa.vo.Building;
 
 import java.net.URL;
 
@@ -29,6 +32,9 @@ public class HouseEditActivity extends AppCompatActivity {
     ActivityHouseEditBinding b;
     Intent intent;
     String type;
+
+    int index;
+    Building building;
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -42,8 +48,6 @@ public class HouseEditActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.house_edit_activity_title);
 
-        intent = getIntent();
-        type = intent.getStringExtra("type");
         b.rbElevatorNot.setChecked(true);
         b.rgParking.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -66,10 +70,28 @@ public class HouseEditActivity extends AppCompatActivity {
         });
         b.rbParkingNot.setChecked(true);
 
+        b.fab.setFocusableInTouchMode(true);
+        b.fab.requestFocus();
+
+        intent = getIntent();
+        type = intent.getStringExtra("type");
+        index = intent.getIntExtra("index", -1);
+        if (index >= 0){
+            building = G.getBuildings().get(index);
+            b.tvName.setText(building.getName());
+            b.tvAddress.setText(building.getAddress());
+            b.editName.setText(building.getName());
+            b.editAddress.setText(building.getAddress());
+            b.editFloor.setText(building.getNumOfFloor()+"");
+            if (building.isElevator()) b.rbElevatorGet.setChecked(true);
+            if (building.isParking()) b.rbParkingGet.setChecked(true);
+            if (building.isUnderGround()) b.rbParkingLocaUnder.setChecked(true);
+        }
     }
 
     public void clickMap(View view) {
         //TODO : 현제의 주소를 기반으로 위치보여줌
+        if (building == null) return;
     }
 
     public void clickOK(View view) {

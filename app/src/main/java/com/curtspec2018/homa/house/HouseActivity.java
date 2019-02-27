@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.HouseAdapter;
 import com.curtspec2018.homa.databinding.ActivityHouseBinding;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.HouseListItem;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 public class HouseActivity extends AppCompatActivity {
 
     ActivityHouseBinding b;
-    ArrayList<HouseListItem> items = new ArrayList<>();
+    ArrayList<Building> items = new ArrayList<>();
     HouseAdapter adapter;
 
     final int HOUSE_EDIT = 100;
@@ -33,27 +35,31 @@ public class HouseActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.house_activity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setItems();
+        items = G.getBuildings();
 
         adapter = new HouseAdapter(items, this);
         b.listview.setAdapter(adapter);
         b.listview.setEmptyView(b.emptyView);
     }
 
-    public void setItems(){
-        //items.add(new HouseListItem("건물이름", "", "서울시 관악구 봉천동", "196-160번지"));
-        //TODO : 내가 가지고 있는 주소 리스트 추가.
-    }
 
     public void clickEnter(View v){
         Intent intent = new Intent(this, HouseEditActivity.class);
         intent.putExtra("type", "edit");
+        intent.putExtra("index", -1);
         startActivityForResult(intent, HOUSE_EDIT);
     }
 
     public void clickFab(View view) {
         Intent intent = new Intent(this, HouseEditActivity.class);
         intent.putExtra("type", "new");
+        startActivityForResult(intent, HOUSE_EDIT);
+    }
+
+    public void editBuilding(int position){
+        Intent intent = new Intent(this, HouseEditActivity.class);
+        intent.putExtra("type", "edit");
+        intent.putExtra("index", position);
         startActivityForResult(intent, HOUSE_EDIT);
     }
 

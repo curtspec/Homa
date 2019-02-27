@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -12,6 +13,8 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.PopupMenu;
 
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.MemoListAdapter;
@@ -41,6 +44,39 @@ public class MemoActivity extends AppCompatActivity {
 
         adapter = new MemoListAdapter(schedules, getLayoutInflater());
         b.listview.setAdapter(adapter);
+
+        b.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MemoActivity.this, MemoEditActivity.class);
+                intent.putExtra("index", position);
+                intent.putExtra("date", schedules.get(position).getDate());
+                intent.putExtra("title", schedules.get(position).getTitle());
+                intent.putExtra("subTitle", schedules.get(position).getSubTitle());
+                startActivityForResult(intent, 100);
+            }
+        });
+
+        b.listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                PopupMenu popupMenu = new PopupMenu(MemoActivity.this, view);
+                popupMenu.inflate(R.menu.house_edit);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.menu_delete:
+                                schedules.remove(position);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -73,7 +109,31 @@ public class MemoActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 100:
+                if (resultCode == RESULT_OK){
+                    Calendar date = (Calendar) data.getSerializableExtra("date");
+                    String title = data.getStringExtra("title");
+                    String subTitle = data.getStringExtra("subTitle");
+                    int index = data.getIntExtra("index", -1);
+                    if (index >= 0){
+                        schedules.get(index).setDate(date);
+                        schedules.get(index).setTitle(title);
+                        schedules.get(index).setSubTitle(subTitle);
+                    }else {
+                        schedules.add(0, Schedule.getInstanceFromMemo(date, title, subTitle));
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
+    }
+
     public void clickAdd(View view) {
-        startActivityForResult(new Intent(this, MemoEditActivity.class), 10);
+        Intent intent = new Intent(MemoActivity.this, MemoEditActivity.class);
+        startActivityForResult(intent, 100);
     }
 }

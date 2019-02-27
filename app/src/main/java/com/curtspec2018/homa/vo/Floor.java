@@ -1,8 +1,9 @@
 package com.curtspec2018.homa.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Floor implements Comparable<Floor>{
+public class Floor implements Comparable<Floor>, Serializable {
 
     private int floor;
     private ArrayList<Room> rooms;

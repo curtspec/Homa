@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.TenantPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityTenantBinding;
@@ -130,6 +131,10 @@ public class TenantActivity extends AppCompatActivity {
     }
 
     public void createRoomInfo(){
+        if (G.getCurrentBuilding() == null){
+            Toast.makeText(this, "건물을 먼저 등록해야 합니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, TenantEditActivity.class);
         intent.putExtra("type", "new");
         startActivityForResult(intent, REQUEST_CREATE_ROOM);

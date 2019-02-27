@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,42 +28,69 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.CurrentListAdapter;
 import com.curtspec2018.homa.databinding.FragAccountCurrentBinding;
 import com.curtspec2018.homa.vo.Account;
+import com.curtspec2018.homa.vo.Building;
+import com.curtspec2018.homa.vo.MonthAccount;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CurrentFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    FragAccountCurrentBinding b;
     LayoutInflater inflater;
     ListView listSI;
     ListView listFI;
     ListView listSE;
     ListView listFE;
-    TextView tvSI, tvFI, tvSE, tvFE;
+    TextView tvSI, tvFI, tvSE, tvFE, tvRent, tvIncome, tvTotalIncome, tvTotalExpense, tvPure;
 
     CurrentListAdapter adapterSI;
     CurrentListAdapter adapterFI;
     CurrentListAdapter adapterSE;
     CurrentListAdapter adapterFE;
 
-    ArrayList<Account> staticIncome = new ArrayList<>();
-    ArrayList<Account> floatIncome = new ArrayList<>();
-    ArrayList<Account> staticExpense = new ArrayList<>();
-    ArrayList<Account> floatExpense = new ArrayList<>();
+    ArrayList<Account> staticIncome;
+    ArrayList<Account> floatIncome;
+    ArrayList<Account> staticExpense;
+    ArrayList<Account> floatExpense;
+
+    MonthAccount currentMonth;
+    Building currentBuilding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        b = DataBindingUtil.inflate(inflater, R.layout.frag_account_current, container, false);
         this.inflater = inflater;
-        //=============================================  test datas  =======================================
-        staticIncome.add(new Account("이자수익", 30000));
-        staticIncome.add(new Account("이자수익", 30000));
-        staticExpense.add(new Account("청소업체", 400000));
+
+        //====================================== data setting ==================================================
+
+        currentBuilding = G.getCurrentBuilding();
+        String thisMonth = new SimpleDateFormat("yyyy.MM").format(new Date());
+        if (currentBuilding != null) {
+            currentMonth = currentBuilding.getCurrnetMonth();
+            if (currentMonth == null){
+                currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
+            }
+            if (!currentMonth.getWhen().equals(thisMonth)) {
+                currentBuilding.getAccounts().add(currentMonth);
+                currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
+            }
+        }else {
+            currentMonth = new MonthAccount(thisMonth, 0, new ArrayList<>(), new ArrayList<>());
+        }
+
+        //=========================================================================================================
+
+        staticIncome = currentMonth.getStaticIncomes();
+        floatIncome = currentMonth.getFloatIncomes();
+        staticExpense = currentMonth.getStaticExpense();
+        floatExpense = currentMonth.getFloatExpense();
 
         adapterSI = new CurrentListAdapter(inflater, staticIncome);
         adapterFI = new CurrentListAdapter(inflater, floatIncome);
@@ -92,6 +120,11 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
         tvFI = view.findViewById(R.id.tv_float_income);
         tvSE = view.findViewById(R.id.tv_static_expense);
         tvFE = view.findViewById(R.id.tv_float_expense);
+        tvRent = view.findViewById(R.id.tv_rent);
+        tvIncome = view.findViewById(R.id.tv_income_etc);
+        tvTotalIncome = view.findViewById(R.id.tv_income_total);
+        tvTotalExpense = view.findViewById(R.id.tv_expense_total);
+        tvPure = view.findViewById(R.id.tv_pure);
 
         synchToggleAndListview(view);
         resetValues();
@@ -101,20 +134,24 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
     }
 
     private void resetValues(){
-        int amount = 0;
-        for (Account t : staticIncome) amount += t.getAmount();
-        tvSI.setText(amount+"");
-        amount = 0;
-        for (Account t : floatIncome) amount += t.getAmount();
-        tvFI.setText(amount+"");
-        amount = 0;
-        for (Account t : staticExpense) amount += t.getAmount();
-        tvSE.setText(amount+"");
-        amount = 0;
-        for (Account t : floatExpense) amount += t.getAmount();
-        tvFE.setText(amount+"");
-
-        //TODO :
+        int sumOfSI = 0;
+        for (Account t : staticIncome) sumOfSI += t.getAmount();
+        tvSI.setText(G.divisionThousand(sumOfSI));
+        int sumOfFI = 0;
+        for (Account t : floatIncome) sumOfFI += t.getAmount();
+        tvFI.setText(G.divisionThousand(sumOfFI));
+        int sumOfSE = 0;
+        for (Account t : staticExpense) sumOfSE += t.getAmount();
+        tvSE.setText(G.divisionThousand(sumOfSE));
+        int sumOfFE = 0;
+        for (Account t : floatExpense) sumOfFE += t.getAmount();
+        tvFE.setText(G.divisionThousand(sumOfFE));
+        tvIncome.setText(G.divisionThousand(sumOfSI + sumOfFI));
+        long totalIncome = sumOfSI + sumOfFI + currentMonth.getRent();
+        tvTotalIncome.setText(G.divisionThousand(totalIncome));
+        tvTotalExpense.setText(G.divisionThousand(sumOfSE + sumOfFE));
+        tvPure.setText(G.divisionThousand(totalIncome - (sumOfSE + sumOfFE)));
+        tvRent.setText(G.divisionThousand(currentMonth.getRent()));
     }
 
     private void setListviewHeight(ListView list, CurrentListAdapter adapter){
@@ -188,6 +225,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                         switch (item.getItemId()){
                             case R.id.menu_delete:
                                 if (rg.getCheckedRadioButtonId() == R.id.rb_static){
+                                    if (position == 0) return true;
                                     staticIncome.remove(position);
                                     adapterSI.notifyDataSetChanged();
                                     setListviewHeight(listSI, adapterSI);
@@ -198,7 +236,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                                 }
                                 break;
                         }
-                        return false;
+                        return true;
                     }
                 });
                 popupMenu.show();
@@ -328,10 +366,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
             case R.id.menu_add_expense:
                 showExpenseDialog();
                 break;
-            case R.id.menu_capture:
-
-                break;
         }
-        return false;
+        return true;
     }
 }

@@ -8,20 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.bumptech.glide.Glide;
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ItemHouseBinding;
+import com.curtspec2018.homa.house.HouseActivity;
+import com.curtspec2018.homa.house.HouseEditActivity;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.HouseListItem;
 
 import java.util.ArrayList;
 
-public class HouseAdapter extends BaseAdapter implements View.OnClickListener {
+public class HouseAdapter extends BaseAdapter{
 
-    ArrayList<HouseListItem> items;
+    ArrayList<Building> items;
     LayoutInflater inflater;
     Context context;
     ItemHouseBinding b;
 
-    public HouseAdapter(ArrayList<HouseListItem> items, Context context) {
+    public HouseAdapter(ArrayList<Building> items, Context context) {
         this.items = items;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
@@ -50,21 +55,32 @@ public class HouseAdapter extends BaseAdapter implements View.OnClickListener {
         }
         b.tvName.setText(items.get(position).getName());
         b.tvAddress.setText(items.get(position).getAddress());
-        b.tvDetail.setText(items.get(position).getDetailAdd());
-        b.ivEnter.setOnClickListener(this);
-        b.ivSelect.setOnClickListener(this);
+
+        if (!items.get(position).getProfileUrl().equals("default"))
+            Glide.with(context).load(items.get(position).getProfileUrl()).into(b.circleIv);
+
+        b.ivEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HouseActivity activity = (HouseActivity) context;
+                activity.editBuilding(position);
+            }
+        });
+        b.ivSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Building currentBuilding = G.getCurrentBuilding();
+                if (currentBuilding == null){
+                    G.setCurrentBuilding(G.getBuildings().get(position));
+                    G.getBuildings().remove(position);
+                }else {
+                    G.getBuildings().add(currentBuilding);
+                    G.setCurrentBuilding(G.getBuildings().get(position));
+                    G.getBuildings().remove(position);
+                }
+            }
+        });
         return convertView;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_select:
-
-                break;
-            case R.id.iv_enter:
-                //Intent intent = new Intent(context, );
-                break;
-        }
-    }
 }

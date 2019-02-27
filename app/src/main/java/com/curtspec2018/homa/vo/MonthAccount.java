@@ -1,30 +1,34 @@
 package com.curtspec2018.homa.vo;
 
+import com.curtspec2018.homa.G;
+
 import java.util.ArrayList;
 
 public class MonthAccount {
 
     private String when;
     private int rent;
-    private ArrayList<Account> staticIncomes;
+    private static ArrayList<Account> staticIncomes = new ArrayList<>();
     private int sumSI;
     private ArrayList<Account> floatIncomes;
     private int sumFI;
     private int totalIncome;
-    private ArrayList<Account> staticExpense;
+    private static ArrayList<Account> staticExpense = new ArrayList<>();
     private int sumSE;
     private ArrayList<Account> floatExpense;
     private int sumFE;
     private int totalExpense;
     private int pure;
 
-    public MonthAccount(String when, int rent, ArrayList<Account> staticIncomes, ArrayList<Account> floatIncomes, ArrayList<Account> staticExpense, ArrayList<Account> floatExpense) {
+    public MonthAccount(String when, int rent, ArrayList<Account> floatIncomes, ArrayList<Account> floatExpense) {
         this.when = when;
         this.rent = rent;
-        this.staticIncomes = staticIncomes;
         this.floatIncomes = floatIncomes;
-        this.staticExpense = staticExpense;
         this.floatExpense = floatExpense;
+        if (staticIncomes.size() == 0){
+            if (G.getCurrentBuilding() != null)
+            staticIncomes.add(0, new Account("관리비 합계", G.getCurrentBuilding().getTotalMaintenance()));
+        }
         initValues();
     }
 
@@ -59,11 +63,6 @@ public class MonthAccount {
         return staticIncomes;
     }
 
-    public void setStaticIncomes(ArrayList<Account> staticIncomes) {
-        this.staticIncomes = staticIncomes;
-        initValues();
-    }
-
     public int getSumSI() {
         return sumSI;
     }
@@ -87,11 +86,6 @@ public class MonthAccount {
 
     public ArrayList<Account> getStaticExpense() {
         return staticExpense;
-    }
-
-    public void setStaticExpense(ArrayList<Account> staticExpense) {
-        this.staticExpense = staticExpense;
-        initValues();
     }
 
     public int getSumSE() {

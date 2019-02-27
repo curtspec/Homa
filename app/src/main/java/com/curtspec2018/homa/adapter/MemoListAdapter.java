@@ -46,7 +46,7 @@ public class MemoListAdapter extends BaseAdapter {
         TextView tvSubTitle = convertView.findViewById(R.id.tv_memo);
 
         tvTitle.setText(schedules.get(position).getTitle());
-        String time = new SimpleDateFormat("yyyy.MM.dd hh:mm a").format(new Date(schedules.get(position).getDate().getTimeInMillis()));
+        String time = new SimpleDateFormat("yyyy.MM.dd").format(new Date(schedules.get(position).getDate().getTimeInMillis()));
         tvTime.setText(time);
         tvSubTitle.setText(schedules.get(position).getSubTitle());
         return convertView;
