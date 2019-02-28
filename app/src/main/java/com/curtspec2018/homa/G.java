@@ -21,7 +21,7 @@ public class G {
         return memos;
     }
 
-    public static ArrayList<Schedule> getAddable(){
+    public static ArrayList<Schedule> getAddableSchedules(){
         ArrayList<Schedule> addable = new ArrayList<>();
         addable.addAll(memos);
         if (currentBuilding != null) addable.addAll(currentBuilding.getSchedulesFromTenant());

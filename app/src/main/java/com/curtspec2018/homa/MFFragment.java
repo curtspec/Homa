@@ -1,8 +1,6 @@
 package com.curtspec2018.homa;
 
 import android.annotation.SuppressLint;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarUtils;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
@@ -57,7 +52,7 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         currentDay = today;
         adapter = new MFFragListAdapter(getLayoutInflater(), schedules);
 
-        addable = G.getAddable();
+        addable = G.getAddableSchedules();
 
         setData(today);
         for (Schedule t : addable){  checkMulti(t.getDate()); }

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.SmsListAdapter;
 import com.curtspec2018.homa.databinding.ActivitySmsBinding;
@@ -49,6 +50,10 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         setSupportActionBar(b.toolbar);
         getSupportActionBar().setTitle("SMS/문자");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (G.getCurrentBuilding() != null){
+            addable = G.getCurrentBuilding().getAddableTarget();
+        }
 
         b.switchType.setFocusableInTouchMode(true);
         b.switchType.requestFocus();
@@ -92,7 +97,6 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
                     adapter.notifyDataSetChanged();
                 }
                 b.tvNum.setText(targets.size() + "명");
-                Toast.makeText(SMSActivity.this, targets.size() + "", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -109,25 +113,22 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         builder.setView(v);
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) {                                                    //========== 확인 취소
                 targets.clear();
                 targets.addAll(added);
                 adapter.notifyDataSetChanged();
                 b.tvNum.setText(targets.size() + "명");
                 initLists();
                 dialog.dismiss();
-                Toast.makeText(SMSActivity.this, added.size() + "", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 initLists();
-                /*addable.addAll(added);
+                addable.addAll(added);
                 added.clear();
-                added.addAll(targets);
-                addable.removeAll(targets);*/
-
+                addable.removeAll(targets);
                 dialog.dismiss();
             }
         });
@@ -137,7 +138,8 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
     private void initDialog(View v){
         addableList = v.findViewById(R.id.list_addable);
         addedList = v.findViewById(R.id.list_added);
-        added = targets;
+        added.clear();
+        added.addAll(targets);
         addableAdapter = new SmsListAdapter(addable, getLayoutInflater());
         addedAdapter = new SmsListAdapter(added, getLayoutInflater());
         addableList.setAdapter(addableAdapter);
@@ -171,33 +173,39 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_add:
-                moveData(addable, added);
-                break;
-            case R.id.iv_remove :
-                moveData(added, addable);
-                break;
-        }
-    }
-
-    private void moveData(ArrayList<Target> from, ArrayList<Target> to){
+    public void onClick(View v) {                                                                                                //========== 추가 제거
         ArrayList<Target> selected = new ArrayList<>();
         int cnt = 0;
-        for (Target t : from) {
-            if (t.isSelected) {
-                t.isSelected = false;
-                selected.add(t);
-                cnt++;
-            }
+        switch (v.getId()){
+            case R.id.iv_add:
+                for(Target t : addable){
+                    if (t.isSelected) {
+                        t.isSelected = false;
+                        selected.add(t);
+                        cnt++;
+                    }
+                }
+                if (cnt == 0) return;
+                added.addAll(selected);
+                addable.removeAll(selected);
+                addableAdapter.notifyDataSetChanged();
+                addedAdapter.notifyDataSetChanged();
+                break;
+            case R.id.iv_remove :
+                for(Target t : added){
+                    if (t.isSelected) {
+                        t.isSelected = false;
+                        selected.add(t);
+                        cnt++;
+                    }
+                }
+                if (cnt == 0) return;
+                addable.addAll(selected);
+                added.removeAll(selected);
+                addableAdapter.notifyDataSetChanged();
+                addedAdapter.notifyDataSetChanged();
+                break;
         }
-        if (cnt == 0) return;
-        to.addAll(selected);
-        from.removeAll(selected);
-        addableAdapter.notifyDataSetChanged();
-        addedAdapter.notifyDataSetChanged();
-        Toast.makeText(this, selected.size() + ", " + to.size(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -217,7 +225,7 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
         startActivity(intent);
     }
 
-    public class Target {
+    public static class Target {
 
         public String name;
         public String tenantName;

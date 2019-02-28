@@ -1,6 +1,8 @@
 package com.curtspec2018.homa.vo;
 
 
+import com.curtspec2018.homa.SMS.SMSActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,6 +70,25 @@ public class Building implements Serializable {
             } // 각 방
         }
         return schedules;
+    }
+
+    public ArrayList<SMSActivity.Target> getAddableTarget(){
+        ArrayList<SMSActivity.Target> addable = new ArrayList<>();
+        String name = null;
+        String number = null;
+        for (Floor f : floors){
+            for (Room r : f.getRooms()){
+                if (r.isOccupied() && r.getTenants() != null){
+                    Tenant t = r.getTenants();
+                    name = t.getTenantName();
+                    number = t.getPhoneNumber();
+                    if (name != null && number != null){
+                        addable.add(new SMSActivity.Target(r.getName(), name, number));
+                    }
+                }
+            }
+        }
+        return addable;
     }
 
     public ArrayList<Room> getEmptyRoom(){

@@ -13,6 +13,8 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,16 +72,38 @@ public class HouseEditActivity extends AppCompatActivity {
         });
         b.rbParkingNot.setChecked(true);
 
+        b.editName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                b.tvName.setText(s.toString());
+            }
+        });
+        b.editAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {     }
+            @Override
+            public void afterTextChanged(Editable s) {
+                b.tvAddress.setText(s.toString());
+            }
+        });
+
         b.fab.setFocusableInTouchMode(true);
         b.fab.requestFocus();
 
         intent = getIntent();
         type = intent.getStringExtra("type");
-        index = intent.getIntExtra("index", -1);
-        if (index >= 0){
-            building = G.getBuildings().get(index);
-            b.tvName.setText(building.getName());
-            b.tvAddress.setText(building.getAddress());
+        index = intent.getIntExtra("index", -2);
+
+        if (index >= 0)                           building = G.getBuildings().get(index);
+        if (type.equals("edit") && index == -1)   building = G.getCurrentBuilding();
+
+        if (building != null){
             b.editName.setText(building.getName());
             b.editAddress.setText(building.getAddress());
             b.editFloor.setText(building.getNumOfFloor()+"");
@@ -87,6 +111,7 @@ public class HouseEditActivity extends AppCompatActivity {
             if (building.isParking()) b.rbParkingGet.setChecked(true);
             if (building.isUnderGround()) b.rbParkingLocaUnder.setChecked(true);
         }
+
     }
 
     public void clickMap(View view) {
@@ -95,7 +120,32 @@ public class HouseEditActivity extends AppCompatActivity {
     }
 
     public void clickOK(View view) {
-        //TODO : intent 에 데이터 넣기
+        String name = b.editName.getText().toString();
+        String address = b.editAddress.getText().toString();
+        String numOfFloor = b.editFloor.getText().toString();
+        boolean isElevator = b.rbElevatorGet.isChecked();
+        boolean isParking = b.rbParkingGet.isChecked();
+        boolean isUnderGround = false;
+        if (isParking) isUnderGround = b.rbParkingLocaUnder.isChecked();
+
+        if (name.equals("") || address.equals("") || numOfFloor.equals("")){
+            Toast.makeText(this, "정보를 모두 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
+        }else if(!address.contains("시")){
+            Toast.makeText(this, "정확한 주소를 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (Integer.parseInt(numOfFloor) == 0){
+            Toast.makeText(this, "정확한 층수를 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        intent.putExtra("type", type);
+        intent.putExtra("index", index);
+        intent.putExtra("name" , name);
+        intent.putExtra("address" , address);
+        intent.putExtra("numOfFloor", Integer.parseInt(numOfFloor));
+        intent.putExtra("isElevator", isElevator);
+        intent.putExtra("isParking", isParking);
+        intent.putExtra("isUnderGround", isUnderGround);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -145,6 +195,7 @@ public class HouseEditActivity extends AppCompatActivity {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        intent.putExtra("index", index);
                         setResult(RESULT_DELETE, intent);
                         finish();
                     }

@@ -78,7 +78,7 @@
                             android:layout_marginLeft="16dp"
                             android:textSize="14sp"
                             android:layout_marginBottom="8dp"
-                            android:text="서울시 관악구 봉천동 16-160번지"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
 
