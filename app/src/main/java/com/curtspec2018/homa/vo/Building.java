@@ -1,6 +1,8 @@
 package com.curtspec2018.homa.vo;
 
 
+import android.util.Log;
+
 import com.curtspec2018.homa.SMS.SMSActivity;
 
 import java.io.Serializable;
@@ -44,7 +46,6 @@ public class Building implements Serializable {
     public ArrayList<Schedule> getSchedulesFromTenant(){
         ArrayList<Schedule> schedules = new ArrayList<>();
         Calendar today = Calendar.getInstance();
-        Calendar payday = today;
         int month = 0;
         int year = 0;
         for (Floor f : floors){
@@ -57,7 +58,8 @@ public class Building implements Serializable {
                         schedules.add(Schedule.getInstanceFromTenant(t.getContractDay(), r.getName(), Schedule.TYPE_CONTRACT));
                         schedules.add(Schedule.getInstanceFromTenant(t.getContractOver(), r.getName(), Schedule.TYPE_CONTRACT_OVER));
                         for (int i = 0; i < 24; i++) {
-                            payday.set(year, month, t.getPeriod());
+                            Calendar payday = Calendar.getInstance();
+                            payday.set(year-1, month, t.getPayday());
                             schedules.add(Schedule.getInstanceFromTenant(payday, r.getName(), Schedule.TYPE_PAYDAY));
                             month++;
                             if (month > 11){
@@ -146,7 +148,7 @@ public class Building implements Serializable {
                         break;
                     }
                 }
-                if (index > 0){
+                if (index >= 0){
                     editTarget.remove(index);
                     editTarget.add(index, room);
                 }
@@ -154,6 +156,18 @@ public class Building implements Serializable {
             }
         }
     }
+
+    public boolean isExist(String name){
+        for (Floor f : floors){
+            for (Room r : f.getRooms()){
+                if (r.getName().equals(name)) return true;
+            }
+        }
+        return false;
+    }
+
+
+
 
     public String getProfileUrl() {
         return profileUrl;

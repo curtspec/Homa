@@ -27,6 +27,7 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ActivityTenantEditBinding;
 import com.curtspec2018.homa.vo.Room;
@@ -40,6 +41,7 @@ public class TenantEditActivity extends AppCompatActivity {
 
     ActivityTenantEditBinding b;
     Intent intent;
+    String type;
 
     Room room;
     final static int PICK_PHOTO = 20;
@@ -54,8 +56,6 @@ public class TenantEditActivity extends AppCompatActivity {
         intent = getIntent();
         getSupportActionBar().setTitle(R.string.tenant_edit_activity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        initViewsValue();
         b.toolbar.setFocusableInTouchMode(true);
         b.toolbar.requestFocus();
 
@@ -87,11 +87,13 @@ public class TenantEditActivity extends AppCompatActivity {
                 }
             }
         });
+
+        initViewsValue();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        String type = intent.getStringExtra("type");
+        type = intent.getStringExtra("type");
         if (type.equals("new")) return true;
         getMenuInflater().inflate(R.menu.house_edit, menu);
         Drawable drawable = menu.getItem(0).getIcon();
@@ -157,6 +159,7 @@ public class TenantEditActivity extends AppCompatActivity {
             b.editNick.setText(room.getNickname());
             Tenant t = room.getTenants();
             if (room.isOccupied() && t != null){
+                b.switchRegister.setChecked(true);
                 b.editMonthly.setText(t.getRent()+"");
                 b.editMaintenance.setText(t.getMaintenanceFee() + "");
                 Calendar contractDay = t.getContractDay();
@@ -194,8 +197,10 @@ public class TenantEditActivity extends AppCompatActivity {
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_numer_picker, null);
         final NumberPicker picker = v.findViewById(R.id.number_picker);
         picker.setMinValue(1);
-        //TODO : 건물의 층수로 max limit 걸기
-        picker.setMaxValue(100);
+
+        int maxFloor = 0;
+        maxFloor = G.getCurrentBuilding().getNumOfFloor();
+        picker.setMaxValue(maxFloor);
         picker.setValue(1);
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
@@ -252,10 +257,15 @@ public class TenantEditActivity extends AppCompatActivity {
         boolean isUnderGround = b.switchUnder.isChecked();
         boolean isOccupied = b.switchRegister.isChecked();
 
+
         if (floor.equals("") || name.equals("") || nick.equals("")) {
             new AlertDialog.Builder(this).setMessage("필수요소를 모두 입력하세요.").show();
             return;
+        }else if (type.equals("new") && G.getCurrentBuilding().isExist(name)){
+            new AlertDialog.Builder(this).setMessage("이미 존재하는 호수입니다").show();
+            return;
         }
+
         room = new Room(name, nick, Integer.parseInt(floor), isOccupied, isUnderGround);
         if (isOccupied){
             String rent = b.editMonthly.getText().toString().trim();

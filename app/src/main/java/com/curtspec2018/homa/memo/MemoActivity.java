@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.PopupMenu;
 
+import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.MemoListAdapter;
 import com.curtspec2018.homa.databinding.ActivityMemoBinding;
@@ -39,8 +40,9 @@ public class MemoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("메모/일정");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
-        schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
+        schedules.addAll(G.getMemos());
+        //schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
+        //schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
 
         adapter = new MemoListAdapter(schedules, getLayoutInflater());
         b.listview.setAdapter(adapter);
@@ -130,6 +132,12 @@ public class MemoActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        G.setMemos(schedules);
     }
 
     public void clickAdd(View view) {

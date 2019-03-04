@@ -26,7 +26,7 @@ public class Tenant implements Serializable {
         this.period = period;
         this.tenantName = tenantName;
         this.phoneNumber = phoneNumber;
-        contractOver = contractDay;
+        contractOver = Calendar.getInstance();
         contractOver.set(contractOver.get(Calendar.YEAR) + period, contractOver.get(Calendar.MONTH), contractOver.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -38,7 +38,7 @@ public class Tenant implements Serializable {
         this.arrear = arrear;
         this.contractDay = contractDay;
         this.period = period;
-        contractOver = contractDay;
+        contractOver = Calendar.getInstance();
         contractOver.set(contractOver.get(Calendar.YEAR) + period, contractOver.get(Calendar.MONTH), contractOver.get(Calendar.DAY_OF_MONTH));
     }
 

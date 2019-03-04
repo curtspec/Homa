@@ -62,7 +62,8 @@ public class HouseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        G.setCurrentBuilding(currentBuilding);
+        if (currentBuilding != null) G.setCurrentBuilding(currentBuilding);
+        G.setBuildings(items);
     }
 
     public void clickEnter(View v){

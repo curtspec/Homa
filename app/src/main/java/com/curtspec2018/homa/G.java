@@ -3,13 +3,16 @@ package com.curtspec2018.homa;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.MonthAccount;
 import com.curtspec2018.homa.vo.Schedule;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class G {
 
@@ -25,6 +28,9 @@ public class G {
         ArrayList<Schedule> addable = new ArrayList<>();
         addable.addAll(memos);
         if (currentBuilding != null) addable.addAll(currentBuilding.getSchedulesFromTenant());
+        for (Schedule s : addable){
+            Log.i("ErrorTrace", new SimpleDateFormat("yyyy.MM.dd").format(new Date(s.getDate().getTimeInMillis())) + "\n");
+        }
         return addable;
     }
 
@@ -40,7 +46,13 @@ public class G {
         return currentBuilding;
     }
 
+    public static void setBuildings(ArrayList<Building> buildings) {
+        G.buildings = buildings;
+    }
 
+    public static void setMemos(ArrayList<Schedule> memos) {
+        G.memos = memos;
+    }
 
     //==================================== method ==============================================
     public static String divisionThousand(long value){

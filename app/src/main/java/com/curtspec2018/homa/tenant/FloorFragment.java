@@ -83,6 +83,14 @@ public class FloorFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (currentBuilding != null){
+            G.getCurrentBuilding().setFloors(floors);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         emptyView.setVisibility(floors.size() == 0 ? View.VISIBLE : View.INVISIBLE);
@@ -107,6 +115,11 @@ public class FloorFragment extends Fragment {
             floors.get(index).getRooms().add(room);
             adapter.notifyItemChanged(index);
         }
+        if (!room.isOccupied() && room.getTenants() == null){
+            EmptyFragment empty = (EmptyFragment) getFragmentManager().getFragments().get(1);
+            empty.emptyRoom.add(room);
+            empty.adapter.notifyDataSetChanged();
+        }
     }
 
     public void editItem(Room room, int position){
@@ -123,7 +136,19 @@ public class FloorFragment extends Fragment {
             rooms.remove(position);
             rooms.add(position, room);
             adapter.adapter.notifyItemChanged(position);
+
+            if (currentBuilding != null) {
+                currentBuilding.setRoom(room);
+            }
+
+            if (room.isOccupied()){
+                EmptyFragment empty = (EmptyFragment) getFragmentManager().getFragments().get(1);
+                empty.emptyRoom.clear();
+                empty.emptyRoom.addAll(currentBuilding.getEmptyRoom());
+                empty.adapter.notifyDataSetChanged();
+            }
         }
+
     }
 
     public void deleteItem(Room room, int position){
@@ -135,13 +160,19 @@ public class FloorFragment extends Fragment {
                 break;
             }
         }
-        Toast.makeText(getContext(), index +"", Toast.LENGTH_SHORT).show();
         if (index >= 0){
             ArrayList<Room> rooms = floors.get(index).getRooms();
             rooms.remove(position);
             adapter.adapter.notifyDataSetChanged();
             if (rooms.size() == 0) floors.remove(index);
             adapter.notifyItemChanged(index);
+            if (currentBuilding != null) {
+                currentBuilding.removeRoom(room);
+                EmptyFragment empty = (EmptyFragment) getFragmentManager().getFragments().get(1);
+                empty.emptyRoom.clear();
+                empty.emptyRoom.addAll(currentBuilding.getEmptyRoom());
+                empty.adapter.notifyDataSetChanged();
+            }
         }
     }
 }

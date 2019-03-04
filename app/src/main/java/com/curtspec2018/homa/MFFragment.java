@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -52,7 +56,8 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         currentDay = today;
         adapter = new MFFragListAdapter(getLayoutInflater(), schedules);
 
-        addable = G.getAddableSchedules();
+        addable.clear();
+        addable.addAll(G.getAddableSchedules());
 
         setData(today);
         for (Schedule t : addable){  checkMulti(t.getDate()); }
@@ -72,7 +77,6 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
                     break;
             }
         }
-
         return inflater.inflate(R.layout.frag_mf, container, false);
     }
 
@@ -112,6 +116,8 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         Calendar min = Calendar.getInstance();
         min.set(today.get(Calendar.YEAR) - 1, today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
         calendar.setMinimumDate(min);
+        calendar.setEvents(eventDays);
+
 //        Drawable d = CalendarUtils.getDrawableText(getContext(), today.get(Calendar.DAY_OF_MONTH) + "",
 //                Typeface.DEFAULT, R.color.White, (int)G.dpToPx(7, getContext()));
 //        fab.setImageDrawable(d);
@@ -142,7 +148,7 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         });
         calendar.setOnPreviousPageChangeListener(this);
         calendar.setOnForwardPageChangeListener(this);
-        calendar.setEvents(eventDays);
+
 
         try { calendar.setDate(today); } catch (OutOfDateRangeException e) { e.printStackTrace(); }
         super.onViewCreated(view, savedInstanceState);
@@ -225,4 +231,15 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         adapter.notifyDataSetChanged();
         if (listView != null) setListviewHeight(listView, adapter);
     }
+
+    public void refreshView(){
+        FragmentManager fm = getFragmentManager();
+        if (fm != null){
+            FragmentTransaction ft = fm.beginTransaction();
+            if (ft != null){
+                ft.detach(this).attach(this).commit();
+            }
+        }
+    }
+
 }

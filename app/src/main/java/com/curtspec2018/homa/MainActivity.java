@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MFFragment mf = (MFFragment) adapter.getItem(1);
+        mf.refreshView();
+    }
 }
