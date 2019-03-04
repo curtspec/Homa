@@ -3,10 +3,9 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="450dp">
 
         <LinearLayout
-            android:gravity="center"
             android:background="#c1c1c1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -15,8 +14,9 @@
             <TextView
                 android:textSize="30sp"
                 android:text="naver map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -34,6 +34,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:src="@drawable/ic_swap"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
                 android:tint="@color/white"
                 android:layout_width="32dp"
                 android:layout_height="32dp" />
@@ -47,10 +49,10 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/t"
+                android:id="@+id/tv_name"
                 android:layout_toRightOf="@id/dot"
                 android:layout_marginLeft="8dp"
-                android:text="현제 건물 별명"
+                android:text="건물이 없습니다."
                 android:textColor="#ffffff"
                 android:alpha="0.7"
                 android:textSize="14sp"
@@ -61,21 +63,22 @@
             <View
                 android:background="@color/White"
                 android:layout_marginTop="4dp"
-                android:layout_alignStart="@id/t"
-                android:layout_alignEnd="@id/t"
-                android:layout_below="@id/t"
+                android:layout_alignStart="@id/tv_name"
+                android:layout_alignEnd="@id/tv_name"
+                android:layout_below="@id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"/>
 
             <TextView
-                android:layout_alignStart="@id/t"
-                android:layout_below="@id/t"
+                android:id="@+id/tv_address"
+                android:layout_alignStart="@id/tv_name"
+                android:layout_below="@id/tv_name"
                 android:layout_marginTop="8dp"
                 android:textColor="#ffffff"
                 android:alpha="0.7"
                 android:layout_toLeftOf="@id/btn_swap"
                 android:layout_marginRight="16dp"
-                android:text="서울시 관악구 봉천동 196-160번지"
+                android:text="건물을 먼저 등록해주세요"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

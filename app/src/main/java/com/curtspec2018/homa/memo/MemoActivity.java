@@ -70,6 +70,7 @@ public class MemoActivity extends AppCompatActivity {
                         switch (item.getItemId()){
                             case R.id.menu_delete:
                                 schedules.remove(position);
+                                adapter.notifyDataSetChanged();
                                 break;
                         }
                         return true;

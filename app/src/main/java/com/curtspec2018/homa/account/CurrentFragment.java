@@ -236,6 +236,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                                 }
                                 break;
                         }
+                        resetValues();
                         return true;
                     }
                 });
@@ -263,6 +264,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                     adapterFI.notifyDataSetChanged();
                     setListviewHeight(listFI, adapterFI);
                 }
+                resetValues();
             }
         });
         builder.setView(v);
@@ -318,6 +320,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                                 }
                                 break;
                         }
+                        resetValues();
                         return false;
                     }
                 });
@@ -345,6 +348,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                     adapterFE.notifyDataSetChanged();
                     setListviewHeight(listFE, adapterFE);
                 }
+                resetValues();
             }
         });
         builder.setView(v);
