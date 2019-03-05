@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class EmptyRecycleAdapter extends RecyclerView.Adapter {
 
-    ArrayList<Room> emptyRooms = new ArrayList<>();
+    ArrayList<Room> emptyRooms;
     Context context;
 
     public EmptyRecycleAdapter(ArrayList<Room> emptyRooms, Context context) {
@@ -37,7 +37,6 @@ public class EmptyRecycleAdapter extends RecyclerView.Adapter {
         v.tvName.setText(emptyRooms.get(i).getName());
         v.tvNick.setText(emptyRooms.get(i).getNickname());
         v.tvFloor.setText(emptyRooms.get(i).getFloor() + "층");
-        v.tvEmptyTime.setText(emptyRooms.get(i).getEmptyTime() + "공실 등록");
         v.ivEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +53,7 @@ public class EmptyRecycleAdapter extends RecyclerView.Adapter {
 
     class VH extends RecyclerView.ViewHolder{
 
-        TextView tvName, tvNick, tvFloor, tvEmptyTime;
+        TextView tvName, tvNick, tvFloor;
         ImageView ivEnter;
 
         public VH(@NonNull View itemView) {
@@ -62,7 +61,6 @@ public class EmptyRecycleAdapter extends RecyclerView.Adapter {
             tvName = itemView.findViewById(R.id.tv_name);
             tvFloor = itemView.findViewById(R.id.tv_floor);
             tvNick = itemView.findViewById(R.id.tv_nick);
-            tvEmptyTime = itemView.findViewById(R.id.tv_empty_time);
             ivEnter = itemView.findViewById(R.id.iv_enter);
         }
     }

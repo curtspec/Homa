@@ -82,19 +82,19 @@ public class FloorFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void saveData(){
         if (currentBuilding != null){
             G.getCurrentBuilding().setFloors(floors);
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void refreshView(){
         emptyView.setVisibility(floors.size() == 0 ? View.VISIBLE : View.INVISIBLE);
         recyclerView.setVisibility(floors.size() != 0 ? View.VISIBLE : View.INVISIBLE);
+        if (currentBuilding != null) {
+            floors.clear();
+            floors.addAll(currentBuilding.getFloors());
+        }
     }
 
     public void addItem(Room room){

@@ -4,7 +4,7 @@
     app:cardCornerRadius="8dp"
     android:layout_width="match_parent"
     android:layout_marginHorizontal="4dp"
-    android:layout_height="110dp">
+    android:layout_height="100dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,15 +41,6 @@
                 android:id="@+id/tv_nick"
                 android:text="별칭쓰는자리"
                 android:textSize="14sp"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="0dp" />
-
-            <TextView
-                android:id="@+id/tv_empty_time"
-                android:text="2018.03.02 공실등록"
-                android:textSize="14sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="0dp" />
