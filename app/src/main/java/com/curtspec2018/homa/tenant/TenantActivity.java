@@ -112,11 +112,11 @@ public class TenantActivity extends AppCompatActivity {
             case REQUEST_EDIT_EMPTY:
                 b.viewPager.setCurrentItem(1, true);
                 if (resultCode == RESULT_OK && room != null && !isDelete){
-                    EmptyFragment emptyFragment = (EmptyFragment) adapter.getItem(1);
-                    emptyFragment.editItem(room, requestedItemPosition);
+                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+                    floorFragment.editItem(room);
                 }else if (resultCode == RESULT_OK && room != null && isDelete){
-                    EmptyFragment emptyFragment = (EmptyFragment) adapter.getItem(1);
-                    emptyFragment.deleteItem(room, requestedItemPosition);
+                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+                    floorFragment.deleteItem(room);
                 }
                 break;
         }

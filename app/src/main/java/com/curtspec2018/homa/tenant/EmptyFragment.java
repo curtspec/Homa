@@ -59,23 +59,4 @@ public class EmptyFragment extends Fragment {
         recycler.setVisibility(emptyRoom.size() == 0 ? View.GONE : View.VISIBLE);
     }
 
-    public void editItem(Room room, int position){
-        if (room.isOccupied()) {
-            emptyRoom.remove(position);
-            adapter.notifyDataSetChanged();
-        }
-        else {
-            emptyRoom.remove(position);
-            emptyRoom.add(position, room);
-            adapter.notifyItemChanged(position);
-        }
-        if (currentBuilding != null) currentBuilding.setRoom(room);
-    }
-
-    public void deleteItem(Room room, int position){
-        if (currentBuilding != null) currentBuilding.removeRoom(room);
-
-        emptyRoom.remove(position);
-        adapter.notifyDataSetChanged();
-    }
 }

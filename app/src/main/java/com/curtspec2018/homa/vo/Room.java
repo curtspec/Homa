@@ -2,6 +2,9 @@ package com.curtspec2018.homa.vo;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class Room implements Serializable, Comparable<Room> {
 
     private String name;
@@ -88,5 +91,19 @@ public class Room implements Serializable, Comparable<Room> {
     @Override
     public int compareTo(Room o) {
         return name.compareTo(o.name);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Room){
+            Room tmp = (Room) obj;
+            return name.equals(tmp.getName());
+        }else return false;
     }
 }
