@@ -12,13 +12,11 @@
         android:roundIcon="@mipmap/ic_custom_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="ytxjsbppzg" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".house.HouseActivity"
             android:parentActivityName=".MainActivity" />
@@ -40,9 +38,18 @@
         <activity
             android:name=".memo.MemoActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".memo.MemoEditActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".memo.MemoActivity"></activity>
+        <activity
+            android:name=".memo.MemoEditActivity"
+            android:parentActivityName=".memo.MemoActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
