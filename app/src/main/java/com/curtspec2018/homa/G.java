@@ -16,13 +16,15 @@ import java.util.Date;
 
 public class G {
 
+    public static final String SERVER_URL = "http://curtspec2019.dothome.co.kr/homa/";
     private static Building currentBuilding;
     private static ArrayList<Building> buildings = new ArrayList<>();
     private static ArrayList<Schedule> memos = new ArrayList<>();
-
     public static ArrayList<Schedule> getMemos(){
         return memos;
     }
+
+    private static String id;
 
     public static ArrayList<Schedule> getAddableSchedules(){
         ArrayList<Schedule> addable = new ArrayList<>();
@@ -52,6 +54,14 @@ public class G {
 
     public static void setMemos(ArrayList<Schedule> memos) {
         G.memos = memos;
+    }
+
+    public static String getId() {
+        return id;
+    }
+
+    public static void setId(String id) {
+        G.id = id;
     }
 
     //==================================== method ==============================================
