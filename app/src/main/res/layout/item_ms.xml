@@ -9,11 +9,81 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="120dp">
+            android:layout_height="wrap_content">
 
-        </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/title"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="6dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:text="102호"
+                    android:textStyle="bold"
+                    android:layout_marginRight="16dp"
+                    android:textColor="@color/White"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_tenant_name"
+                    android:text="홍길동"
+                    android:textColor="@color/White"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_payday"
+                    android:text="매달 13일 월세납입"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_below="@id/title"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_arrear"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_below="@id/tv_payday"
+                    android:text="연체 횟수 1회"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="총 연체 금액 : 450,000원"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tv_arrear"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

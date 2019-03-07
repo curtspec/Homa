@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -81,6 +82,7 @@ public class IntroActivity extends AppCompatActivity {
             isAuto = preferences.getBoolean("auto", false);
             if (isAuto){
                 String id = preferences.getString("id", null);
+                Log.i("ErrorTrace", id);
                 G.setId(id);
                 handler.sendEmptyMessageDelayed(10, 1200);
             }else {

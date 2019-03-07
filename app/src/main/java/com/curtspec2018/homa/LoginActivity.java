@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -72,11 +73,12 @@ public class LoginActivity extends AppCompatActivity {
                             if (idRecived.equals(id) && pwRecived.equals(pw)) {
                                 //로그인 성공
                                 boolean isAuto = b.cbAuto.isChecked();
+                                Log.i("ErrorTrace - login", isAuto+"");
                                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
                                 if (isAuto) {
                                     preferences.edit().putBoolean("auto", true);
                                 }
-                                preferences.edit().putString("id", id).commit();
+                                preferences.edit().putString("id", id).apply();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                                 return;
@@ -98,10 +100,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (pw.equals(members.get(id))){
                     boolean isAuto = b.cbAuto.isChecked();
                     SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
                     if (isAuto) {
-                        preferences.edit().putBoolean("auto", true);
+                        editor.putBoolean("auto", true).apply();
                     }
-                    preferences.edit().putString("id", id).commit();
+                    editor.putString("id", id).apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 }
@@ -182,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "화원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     clickCancel(view);
+                    members.put(id, pw);
                 }else Toast.makeText(LoginActivity.this, "회원가입에 문제가 발생했습니다. 다시 시도해주세요", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

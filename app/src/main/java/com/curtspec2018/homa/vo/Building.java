@@ -105,6 +105,19 @@ public class Building implements Serializable {
         return emptyRoom;
     }
 
+    public ArrayList<Room> getArrears(){
+        ArrayList<Room> arrears = new ArrayList<>();
+        for (Floor f : floors){
+            for (Room r : f.getRooms()){
+                Tenant t = r.getTenants();
+                if (t != null && t.getArrear() > 0){
+                    arrears.add(r);
+                }
+            }
+        }
+        return arrears;
+    }
+
     public int getTotalRent(){
         int total = 0;
         for (Floor f : floors){

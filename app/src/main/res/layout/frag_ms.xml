@@ -20,7 +20,7 @@
             <TextView
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
-                android:text="처리대기"
+                android:text="월세 미납"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -29,7 +29,8 @@
             <View
                 android:layout_marginTop="4dp"
                 android:layout_marginHorizontal="8dp"
-                android:background="#747474"
+                android:background="@color/colorPrimary"
+                android:alpha="0.6"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -60,7 +61,7 @@
             <TextView
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
-                android:text="미입금"
+                android:text="장기연체 (3개월 이상)"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -69,7 +70,8 @@
             <View
                 android:layout_marginTop="4dp"
                 android:layout_marginHorizontal="8dp"
-                android:background="#747474"
+                android:background="@color/colorPrimary"
+                android:alpha="0.6"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -95,7 +97,7 @@
             android:paddingVertical="16dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <ImageView

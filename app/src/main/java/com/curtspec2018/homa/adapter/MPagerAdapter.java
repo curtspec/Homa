@@ -11,7 +11,7 @@ import com.curtspec2018.homa.MTFragment;
 
 public class MPagerAdapter extends FragmentPagerAdapter {
 
-    String[] titles = new String[]{"미처리", "입금현황", "입주통계"};
+    String[] titles = new String[]{"미입금", "입금현황", "입주통계"};
 
     public MPagerAdapter(FragmentManager fm) {
         super(fm);
