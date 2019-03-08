@@ -12,16 +12,7 @@ public class Room implements Serializable, Comparable<Room> {
     private int floor;
     private boolean isOccupied;
     private boolean isUnderGround;
-    private String emptyTime;
     private Tenant tenants;
-
-    public String getEmptyTime() {
-        return emptyTime;
-    }
-
-    public void setEmptyTime(String emptyTime) {
-        this.emptyTime = emptyTime;
-    }
 
     public Room(String name, String nickname, int floor, boolean isOccupied, boolean isUnderGround) {
         this.name = name;

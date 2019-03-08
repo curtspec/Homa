@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Homa</string>
+    <string name="custom_app_name">HOMA 원룸관리</string>
     <string name="house_activity_title">건물 정보 관리</string>
     <string name="house_edit_activity_title">건물 상세 편집</string>
     <string name="tenant_activity_title">세입자 관리</string>

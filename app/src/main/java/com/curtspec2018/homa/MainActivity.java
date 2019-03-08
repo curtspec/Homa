@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onResume();
         MFFragment mf = (MFFragment) adapter.getItem(1);
         mf.refreshView();
+        MTFragment mt = (MTFragment) adapter.getItem(2);
+        mt.refreshView();
         Building currentBuilding = G.getCurrentBuilding();
         if (currentBuilding!= null){
             tvName.setText(currentBuilding.getName());

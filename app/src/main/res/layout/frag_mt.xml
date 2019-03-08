@@ -14,13 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.github.mikephil.charting.charts.CombinedChart
+            <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/chart"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="350dp">
 
-            </com.github.mikephil.charting.charts.CombinedChart>
+            </com.github.mikephil.charting.charts.BarChart>
 
             <LinearLayout
                 android:gravity="right"
@@ -31,13 +31,13 @@
 
                 <View
                     android:layout_gravity="center_vertical"
-                    android:background="@color/chart1"
+                    android:background="#80c6af"
                     android:layout_marginHorizontal="8dp"
                     android:layout_width="20dp"
                     android:layout_height="12dp"/>
 
                 <TextView
-                    android:text="총 수익"
+                    android:text="거주중"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginRight="8dp"
@@ -46,31 +46,16 @@
 
                 <View
                     android:layout_gravity="center_vertical"
-                    android:background="@color/chart2"
+                    android:background="#00ffaa"
                     android:layout_marginHorizontal="8dp"
                     android:layout_width="20dp"
                     android:layout_height="12dp"/>
 
                 <TextView
-                    android:text="총 지출"
+                    android:text="공실"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginRight="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <View
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/chart3"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_width="20dp"
-                    android:layout_height="12dp"/>
-
-                <TextView
-                    android:text="순이익"
-                    android:textSize="13sp"
-                    android:layout_marginRight="12dp"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
