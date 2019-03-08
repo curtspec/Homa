@@ -169,7 +169,6 @@ public class MemoActivity extends AppCompatActivity {
                 jsonArray.add(gson.toJson(s));
             }
             String memosData = jsonArray.toString();
-            Log.i("ErrorTrace", memosData);
 
             String url = G.SERVER_URL+"saveMemos.php";
             SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
