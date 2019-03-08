@@ -84,6 +84,9 @@ public class IntroActivity extends AppCompatActivity {
                 String id = preferences.getString("id", null);
                 Log.i("ErrorTrace", id);
                 G.setId(id);
+
+
+
                 handler.sendEmptyMessageDelayed(10, 1200);
             }else {
                 String url = G.SERVER_URL+"loadMember.php";

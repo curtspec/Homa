@@ -161,33 +161,41 @@ public class MemoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ArrayList<Schedule> memos = G.getMemos();
-        if (memos.size() > 0) {
-            Gson gson = new Gson();
-            JsonArray jsonArray = new JsonArray();
-            for (Schedule s : memos) {
-                jsonArray.add(gson.toJson(s));
-            }
-            String memosData = jsonArray.toString();
+        new Thread(){
+            @Override
+            public void run() {
 
-            String url = G.SERVER_URL+"saveMemos.php";
-            SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.equals("error")){
-                        Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                ArrayList<Schedule> memos = G.getMemos();
+                if (memos.size() > 0) {
+                    Gson gson = new Gson();
+                    JsonArray jsonArray = new JsonArray();
+                    for (Schedule s : memos) {
+                        jsonArray.add(gson.toJson(s));
                     }
-                    Toast.makeText(MemoActivity.this, response, Toast.LENGTH_LONG).show();
+                    String memosData = jsonArray.toString();
+
+                    String url = G.SERVER_URL+"saveMemos.php";
+                    SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if (response.equals("error")){
+                                Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                            }
+                            Toast.makeText(MemoActivity.this, response, Toast.LENGTH_LONG).show();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    request.addStringParam("memos", memosData);
+                    RequestQueue queue = Volley.newRequestQueue(MemoActivity.this);
+                    queue.add(request);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
-                }
-            });
-            request.addStringParam("memos", memosData);
-            RequestQueue queue = Volley.newRequestQueue(this);
-            queue.add(request);
-        }
+
+            }
+        }.start();
+
     }
 }
