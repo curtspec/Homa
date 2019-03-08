@@ -140,17 +140,17 @@ public class TenantActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CREATE_ROOM);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-        floorFragment.refreshView();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-        floorFragment.saveData();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+//        floorFragment.refreshView();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+//        floorFragment.saveData();
+//    }
 }

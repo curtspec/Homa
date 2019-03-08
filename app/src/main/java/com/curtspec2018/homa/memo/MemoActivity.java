@@ -1,5 +1,6 @@
 package com.curtspec2018.homa.memo;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -10,17 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.SimpleMultiPartRequest;
+import com.android.volley.toolbox.Volley;
 import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.MemoListAdapter;
 import com.curtspec2018.homa.databinding.ActivityMemoBinding;
 import com.curtspec2018.homa.vo.Schedule;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -144,5 +156,39 @@ public class MemoActivity extends AppCompatActivity {
     public void clickAdd(View view) {
         Intent intent = new Intent(MemoActivity.this, MemoEditActivity.class);
         startActivityForResult(intent, 100);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<Schedule> memos = G.getMemos();
+        if (memos.size() > 0) {
+            Gson gson = new Gson();
+            JsonArray jsonArray = new JsonArray();
+            for (Schedule s : memos) {
+                jsonArray.add(gson.toJson(s));
+            }
+            String memosData = jsonArray.toString();
+            Log.i("ErrorTrace", memosData);
+
+            String url = G.SERVER_URL+"saveMemos.php";
+            SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("error")){
+                        Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(MemoActivity.this, response, Toast.LENGTH_LONG).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+            });
+            request.addStringParam("memos", memosData);
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(request);
+        }
     }
 }

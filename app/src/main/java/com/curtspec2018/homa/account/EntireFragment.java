@@ -15,6 +15,7 @@ import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.ChartMarker;
 import com.curtspec2018.homa.databinding.FragAccountEntireBinding;
 import com.curtspec2018.homa.databinding.FragAccountMonthlyBinding;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.MonthAccount;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,6 +44,14 @@ public class EntireFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Building currentBuilding = G.getCurrentBuilding();
+        if (currentBuilding != null){
+            monthAccounts = currentBuilding.getAccounts();
+            MonthAccount thisMonth = currentBuilding.getCurrnetMonth();
+            if (thisMonth != null){
+                monthAccounts.add(0, thisMonth);
+            }
+        }
         return inflater.inflate(R.layout.frag_account_entire, container, false);
     }
 

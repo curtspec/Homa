@@ -171,7 +171,7 @@ public class FloorFragment extends Fragment {
             if (position >= 0){
                 rooms.remove(position);
                 rooms.add(position, room);
-                adapter.adapter.notifyItemChanged(position);
+                adapter.notifyItemChanged(index);
             }
             if (currentBuilding != null) {
                 currentBuilding.setRoom(room);

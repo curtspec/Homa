@@ -1,11 +1,14 @@
 package com.curtspec2018.homa.vo;
 
+import com.curtspec2018.homa.G;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Schedule {
 
+    private String id;
     private Calendar date;
     private int type;
     private String where;
@@ -35,6 +38,7 @@ public class Schedule {
                 subTitle = new SimpleDateFormat("yyyy.MM.dd").format(new Date(date.getTimeInMillis())) + "계약 종료일";
                 break;
         }
+        this.id = G.getId();
     }
 
     private Schedule(Calendar date, String title, String subTitle) {
@@ -43,6 +47,7 @@ public class Schedule {
         this.subTitle = subTitle;
         type = TYPE_SCHEDULE;
         where = "개인 일정";
+        this.id = G.getId();
     }
 
     public static Schedule getInstanceFromTenant(Calendar date, String where, int type){

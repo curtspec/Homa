@@ -78,7 +78,7 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                 currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
             }
             if (!currentMonth.getWhen().equals(thisMonth)) {
-                currentBuilding.getAccounts().add(currentMonth);
+                currentBuilding.getAccounts().add(0, currentMonth);
                 currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
             }
         }else {
@@ -131,6 +131,15 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
 
         BottomNavigationView btmNavi = view.findViewById(R.id.bottom_navigation);
         btmNavi.setOnNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Building currentBuilding = G.getCurrentBuilding();
+        if (currentBuilding != null){
+            currentBuilding.setCurrnetMonth(currentMonth);
+        }
     }
 
     private void resetValues(){
