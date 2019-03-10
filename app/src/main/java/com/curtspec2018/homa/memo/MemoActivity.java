@@ -181,7 +181,6 @@ public class MemoActivity extends AppCompatActivity {
                             if (response.equals("error")){
                                 Toast.makeText(MemoActivity.this, "서버와의 통신이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(MemoActivity.this, response, Toast.LENGTH_LONG).show();
                         }
                     }, new Response.ErrorListener() {
                         @Override

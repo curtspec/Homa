@@ -22,11 +22,15 @@ import com.android.volley.request.JsonArrayRequest;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
 import com.curtspec2018.homa.databinding.ActivityLoginBinding;
+import com.curtspec2018.homa.vo.Schedule;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
@@ -50,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void clickLogIn(View view) {
-        String id = b.editLoginId.getText().toString();
-        String pw = b.editLogInPw.getText().toString();
+        String id = b.editLoginId.getText().toString().trim();
+        String pw = b.editLogInPw.getText().toString().trim();
 
         if (id.equals("") || pw.equals("")) return;
         else if (id.length() < 6 || pw.length() < 6){
@@ -79,6 +83,8 @@ public class LoginActivity extends AppCompatActivity {
                                     preferences.edit().putBoolean("auto", true);
                                 }
                                 preferences.edit().putString("id", id).apply();
+                                G.setId(id);
+                                loadDatas();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                                 return;
@@ -95,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "서버문제 발생. 다시 시도해주세요", Toast.LENGTH_SHORT).show();
                 }
             });
+            Volley.newRequestQueue(this).add(request);
         }else {
             if (members.containsKey(id)){
                 if (pw.equals(members.get(id))){
@@ -105,13 +112,67 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("auto", true).apply();
                     }
                     editor.putString("id", id).apply();
+                    G.setId(id);
+                    loadDatas();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
+                    return;
                 }
-            }else
-                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+            }
+            Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public void loadDatas(){
+
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setTitle("회원정보 로딩중...");
+
+        //============================================  Load Memos  ===================================================
+
+        String url = G.SERVER_URL + "loadMemos.php?id=" + G.getId();
+        Gson gson = new Gson();
+        ArrayList<Schedule> memos = new ArrayList<>();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Schedule memo = null;
+                for (int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject recode = response.getJSONObject(i);
+                        String calendarGson = recode.getString("date");
+                        Calendar date = gson.fromJson(calendarGson, Calendar.class);
+                        int type = recode.getInt("type");
+                        if (type == Schedule.TYPE_SCHEDULE){
+                            memo = Schedule.getInstanceFromMemo(date, recode.getString("title"), recode.getString("subtitle"));
+                        }else {
+                            memo = Schedule.getInstanceFromTenant(date, recode.getString("location"), type);
+                        }
+                        memos.add(memo);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                G.setMemos(memos);
+                dialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, "서버연결에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessageDelayed(10, 1000);
+            }
+        });
+        Volley.newRequestQueue(LoginActivity.this).add(request);
+
+        //============================================  Load Rooms  ===================================================
+
+    }
+
+
 
     public void clickJoin(View view) {
         dragInLeft.setAnimationListener(new Animation.AnimationListener() {

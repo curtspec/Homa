@@ -12,16 +12,26 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonArrayRequest;
+import com.android.volley.request.SimpleMultiPartRequest;
 import com.android.volley.toolbox.Volley;
+import com.curtspec2018.homa.vo.Schedule;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class IntroActivity extends AppCompatActivity {
@@ -82,12 +92,47 @@ public class IntroActivity extends AppCompatActivity {
             isAuto = preferences.getBoolean("auto", false);
             if (isAuto){
                 String id = preferences.getString("id", null);
-                Log.i("ErrorTrace", id);
                 G.setId(id);
 
+                //load Memos....=======================================================================
+                String url = G.SERVER_URL + "loadMemos.php?id=" + G.getId();
+                Gson gson = new Gson();
+                ArrayList<Schedule> memos = new ArrayList<>();
+                JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Schedule memo = null;
+                        for (int i = 0; i < response.length(); i++){
+                            try {
+                                JSONObject recode = response.getJSONObject(i);
+                                String calendarGson = recode.getString("date");
+                                Calendar date = gson.fromJson(calendarGson, Calendar.class);
+                                int type = recode.getInt("type");
+                                if (type == Schedule.TYPE_SCHEDULE){
+                                    memo = Schedule.getInstanceFromMemo(date, recode.getString("title"), recode.getString("subtitle"));
+                                }else {
+                                    memo = Schedule.getInstanceFromTenant(date, recode.getString("location"), type);
+                                }
+                                memos.add(memo);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        G.setMemos(memos);
+                        handler.sendEmptyMessageDelayed(10, 1000);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(IntroActivity.this, "서버연결에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessageDelayed(10, 1000);
+                    }
+                });
+                Volley.newRequestQueue(IntroActivity.this).add(request);
 
 
-                handler.sendEmptyMessageDelayed(10, 1200);
+                //load rooms ... =======================================================================
+
             }else {
                 String url = G.SERVER_URL+"loadMember.php";
                 HashMap<String, String> members = new HashMap<>();
@@ -102,7 +147,7 @@ public class IntroActivity extends AppCompatActivity {
                                 pw = json.getString("pw");
                                 members.put(id, pw);
                                 if (members.size() > 0) loginIntent.putExtra("members", members);
-                                handler.sendEmptyMessageDelayed(10, 800);
+                                handler.sendEmptyMessageDelayed(10, 1000);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
