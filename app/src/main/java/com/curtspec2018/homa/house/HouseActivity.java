@@ -19,6 +19,8 @@ import com.curtspec2018.homa.vo.HouseListItem;
 
 import java.util.ArrayList;
 
+import static com.curtspec2018.homa.house.HouseEditActivity.RESULT_DELETE;
+
 public class HouseActivity extends AppCompatActivity {
 
     ActivityHouseBinding b;
@@ -104,7 +106,6 @@ public class HouseActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK){
                     currentBuilding = G.getCurrentBuilding();
                     if (currentBuilding != null){
-
                         b.tvCurrentName.setText(currentBuilding.getName());
                         b.tvCurrentAdd.setText(currentBuilding.getAddress());
                         Glide.with(this).load(currentBuilding.getProfileUrl()).into(b.circleIv);
@@ -113,13 +114,9 @@ public class HouseActivity extends AppCompatActivity {
                         b.tvCurrentAdd.setText("등록된 건물이 없습니다");
                         Glide.with(this).load(R.drawable.ic_request_image).into(b.circleIv);
                     }
-                    Log.i("ErrorTrace", "house에서 받고 G. = "+ G.getBuildings().size()+"");
                     items = G.getBuildings();
                     adapter = new HouseAdapter(items, this);
                     b.listview.setAdapter(adapter);
-
-                    Log.i("ErrorTrace", "house에서 받고 G. = "+ G.getBuildings().size()+"");
-                    Log.i("ErrorTrace", "house에서 받고 items = "+ items.size()+"");
                 }
                 break;
         }

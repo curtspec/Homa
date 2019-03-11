@@ -66,10 +66,8 @@ public class HouseAdapter extends BaseAdapter{
 
         tvName.setText(items.get(position).getName());
         tvAddress.setText(items.get(position).getAddress());
-
         if (!items.get(position).getProfileUrl().equals("default"))
             Glide.with(context).load(items.get(position).getProfileUrl()).into(ci);
-
         ivEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +75,6 @@ public class HouseAdapter extends BaseAdapter{
                 activity.editBuilding(position);
             }
         });
-
         ivSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
