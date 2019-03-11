@@ -2,8 +2,10 @@ package com.curtspec2018.homa.tenant;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,7 +13,9 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,8 +34,13 @@ import com.bumptech.glide.Glide;
 import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ActivityTenantEditBinding;
+import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.Room;
 import com.curtspec2018.homa.vo.Tenant;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +51,9 @@ public class TenantEditActivity extends AppCompatActivity {
     ActivityTenantEditBinding b;
     Intent intent;
     String type;
+
+    String imgUrl;
+    String tag;
 
     Room room;
     final static int PICK_PHOTO = 20;
@@ -112,10 +124,7 @@ public class TenantEditActivity extends AppCompatActivity {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        intent.putExtra("delete", true);
-                        if (room != null){
-                            intent.putExtra("room", room);
-                        }
+                        if (room != null) G.getCurrentBuilding().removeRoom(room);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -138,17 +147,57 @@ public class TenantEditActivity extends AppCompatActivity {
         switch (requestCode){
             case PICK_PHOTO:
                 if (resultCode == RESULT_OK){
-                    Bundle bundle = data.getExtras();
-                    if (bundle != null){
-                        Bitmap bitmap = (Bitmap) bundle.get("data");
+                    ProgressDialog progressDialog = new ProgressDialog(this);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.setMessage("이미지 저장중...");
+                    progressDialog.show();
+
+                    Bundle extra = data.getExtras();
+                    if (extra != null){
+                        Bitmap bitmap = (Bitmap) extra.get("data");
                         Glide.with(this).load(bitmap).into(b.iv);
                     }else {
                         Uri uri = data.getData();
                         Glide.with(this).load(uri).into(b.iv);
+                        String[] realPaths = getRealPathFromUri(uri).split("\\.");
+                        String format = realPaths[realPaths.length - 1];
+
+                        if (room == null || room.getTag() == null) tag = Calendar.getInstance().getTimeInMillis() + "";
+                        else tag = room.getTag();
+
+                        String fileName = tag + "contractPaper." + format;
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference rootRef = storage.getReference();
+                        StorageReference targetRef = rootRef.child(G.getId() + "/contractPaper/" + fileName);
+                        UploadTask task = targetRef.putFile(uri);
+                        task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                targetRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        imgUrl = uri.toString();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
                 break;
         }
+    }
+
+    public String getRealPathFromUri(Uri uri){
+        String[] proj= {MediaStore.Images.Media.DATA};
+        CursorLoader loader= new CursorLoader(this, uri, proj, null, null, null);
+        Cursor cursor= loader.loadInBackground();
+        int column_index= cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result= cursor.getString(column_index);
+        cursor.close();
+        return  result;
     }
 
     private void initViewsValue() {
@@ -170,6 +219,10 @@ public class TenantEditActivity extends AppCompatActivity {
                 b.editDeposit.setText(t.getDeposit()+"");
                 b.editPayday.setText(t.getPayday()+"");
                 b.editArrear.setText(t.getArrear()+"");
+                if (t.getImgUrl() != null)  Glide.with(this).load(t.getImgUrl()).into(b.iv);
+                else Glide.with(this).load(R.drawable.ic_request_image).into(b.iv);
+                b.editTenantName.setText(t.getTenantName());
+                b.editTenantNumber.setText(t.getPhoneNumber());
             }
         }
     }
@@ -226,7 +279,12 @@ public class TenantEditActivity extends AppCompatActivity {
         final NumberPicker picker = v.findViewById(R.id.number_picker);
         picker.setMinValue(1);
         picker.setMaxValue(28);
-        picker.setValue(15);
+        String day = "15";
+        if (!b.editContract.equals("")){
+            String[] tmp = b.editContract.getText().toString().split("\\.");
+            day = tmp[tmp.length - 1];
+        }
+        picker.setValue(Integer.parseInt(day));
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -257,7 +315,6 @@ public class TenantEditActivity extends AppCompatActivity {
         boolean isUnderGround = b.switchUnder.isChecked();
         boolean isOccupied = b.switchRegister.isChecked();
 
-
         if (floor.equals("") || name.equals("") || nick.equals("")) {
             new AlertDialog.Builder(this).setMessage("필수요소를 모두 입력하세요.").show();
             return;
@@ -271,7 +328,6 @@ public class TenantEditActivity extends AppCompatActivity {
             String rent = b.editMonthly.getText().toString().trim();
             String maintenance = b.editMaintenance.getText().toString().trim();
             String contractDay = b.editContract.getText().toString();
-            String contractOver = b.editContractOver.getText().toString();
             String period = b.editPeriod.getText().toString().trim();
             String deposit = b.editDeposit.getText().toString().trim();
             String payday = b.editPayday.getText().toString().trim();
@@ -288,16 +344,28 @@ public class TenantEditActivity extends AppCompatActivity {
                 String[] date = contractDay.split("\\.");
                 Calendar contract = Calendar.getInstance();
                 contract.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]));
+
                 String tenantName = b.editTenantName.getText().toString().trim();
                 String tenantNumber = b.editTenantNumber.getText().toString().trim();
                 Tenant t = new Tenant(Integer.parseInt(rent), Integer.parseInt(maintenance), Integer.parseInt(deposit), Integer.parseInt(payday),
                             Integer.parseInt(arrear), contract, Integer.parseInt(period));
+
                 if (!tenantName.equals("")) t.setTenantName(tenantName);
                 if (!tenantNumber.equals("")) t.setPhoneNumber(tenantNumber);
+                if (imgUrl != null) t.setImgUrl(imgUrl);
+
                 room.setTenants(t);
             }
         }
-        intent.putExtra("room", room);
+
+        Building currentBuilding = G.getCurrentBuilding();
+
+        if (type.equals("new")){
+            currentBuilding.addRoom(room);
+        }else {
+            currentBuilding.setRoom(room);
+        }
+
         setResult(RESULT_OK, intent);
         finish();
         return;

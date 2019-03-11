@@ -15,6 +15,7 @@ public class Tenant implements Serializable {
     private int period;
     private String tenantName;
     private String phoneNumber;
+    private String imgUrl;
 
     public Tenant(int rent, int maintenanceFee, int deposit, int payday, int arrear, Calendar contractDay, int period, String tenantName, String phoneNumber) {
         this.rent = rent;
@@ -120,5 +121,13 @@ public class Tenant implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

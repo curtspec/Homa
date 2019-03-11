@@ -39,6 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class HouseEditActivity extends AppCompatActivity {
@@ -50,7 +51,9 @@ public class HouseEditActivity extends AppCompatActivity {
     int index;
     Building building;
     ArrayList<Building> buildings = new ArrayList<>();
+
     String imageUrl;
+    String tag;
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -159,6 +162,8 @@ public class HouseEditActivity extends AppCompatActivity {
         }
 
         building = new Building(imageUrl ,name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
+        building.setTag(tag);
+
         if (type.equals("new")){
             if(G.getCurrentBuilding() == null) G.setCurrentBuilding(building);
             else {
@@ -203,7 +208,10 @@ public class HouseEditActivity extends AppCompatActivity {
                         String[] realPaths = getRealPathFromUri(uri).split("\\.");
                         String format = realPaths[realPaths.length - 1];
 
-                        String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "profiles." + format;
+                        if (building == null || building.getTag() == null) tag = Calendar.getInstance().getTimeInMillis() + "";
+                        else tag = building.getTag();
+
+                        String fileName = tag + "profiles." + format;
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference rootRef = storage.getReference();
                         StorageReference targetRef = rootRef.child(G.getId() + "/buildingsProfiles/" + fileName);
@@ -227,7 +235,7 @@ public class HouseEditActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    String getRealPathFromUri(Uri uri){
+    public String getRealPathFromUri(Uri uri){
         String[] proj= {MediaStore.Images.Media.DATA};
         CursorLoader loader= new CursorLoader(this, uri, proj, null, null, null);
         Cursor cursor= loader.loadInBackground();

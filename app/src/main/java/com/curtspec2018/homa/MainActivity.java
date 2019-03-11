@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lati = result.get(0).getLatitude();
                 logi = result.get(0).getLongitude();
             } catch (IOException e) {
-                Toast.makeText(this, "주소검색 결과 없음", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "주소검색 실패", Toast.LENGTH_SHORT).show();
             }
         }
 
