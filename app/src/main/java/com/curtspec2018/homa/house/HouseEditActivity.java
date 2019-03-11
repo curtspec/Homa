@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.curtspec2018.homa.databinding.ActivityHouseEditBinding;
 import com.curtspec2018.homa.vo.Building;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class HouseEditActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class HouseEditActivity extends AppCompatActivity {
 
     int index;
     Building building;
+    ArrayList<Building> buildings = new ArrayList<>();
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -99,8 +102,9 @@ public class HouseEditActivity extends AppCompatActivity {
         intent = getIntent();
         type = intent.getStringExtra("type");
         index = intent.getIntExtra("index", -2);
+        buildings = G.getBuildings();
 
-        if (index >= 0)                           building = G.getBuildings().get(index);
+        if (index >= 0)                           building = buildings.get(index);
         if (type.equals("edit") && index == -1)   building = G.getCurrentBuilding();
 
         if (building != null){
@@ -128,6 +132,8 @@ public class HouseEditActivity extends AppCompatActivity {
         boolean isUnderGround = false;
         if (isParking) isUnderGround = b.rbParkingLocaUnder.isChecked();
 
+        Log.i("ErrorTrace", "type : " + type);
+
         if (name.equals("") || address.equals("") || numOfFloor.equals("")){
             Toast.makeText(this, "정보를 모두 입력하세요", Toast.LENGTH_SHORT).show();
             return;
@@ -138,14 +144,36 @@ public class HouseEditActivity extends AppCompatActivity {
             Toast.makeText(this, "정확한 층수를 입력하세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        intent.putExtra("type", type);
-        intent.putExtra("index", index);
-        intent.putExtra("name" , name);
-        intent.putExtra("address" , address);
-        intent.putExtra("numOfFloor", Integer.parseInt(numOfFloor));
-        intent.putExtra("isElevator", isElevator);
-        intent.putExtra("isParking", isParking);
-        intent.putExtra("isUnderGround", isUnderGround);
+//        intent.putExtra("type", type);
+//        intent.putExtra("index", index);
+//        intent.putExtra("name" , name);
+//        intent.putExtra("address" , address);
+//        intent.putExtra("numOfFloor", Integer.parseInt(numOfFloor));
+//        intent.putExtra("isElevator", isElevator);
+//        intent.putExtra("isParking", isParking);
+//        intent.putExtra("isUnderGround", isUnderGround);
+//
+        building = new Building(name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
+
+        Log.i("ErrorTrace", "Edit에서 buildings size : " + buildings.size());
+        if (type.equals("new")){
+            if(G.getCurrentBuilding() == null) G.setCurrentBuilding(building);
+            else {
+                buildings.add(building);
+                G.setBuildings(buildings);
+                Log.i("ErrorTrace", "edit 추가 후"+buildings.size()+"");
+            }
+        }else {
+            if (index >= 0){
+                buildings.remove(index);
+                buildings.add(index, building);
+                G.setBuildings(buildings);
+            }else if (index == -1)   G.setCurrentBuilding(building);
+        }
+
+        Log.i("ErrorTrace", "edit 추가 후"+buildings.size()+"");
+        Log.i("ErrorTrace", "edit 추가 후"+G.getBuildings().size()+"");
+
         setResult(RESULT_OK, intent);
         finish();
     }
