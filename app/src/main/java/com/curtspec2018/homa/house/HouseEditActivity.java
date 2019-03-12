@@ -162,10 +162,9 @@ public class HouseEditActivity extends AppCompatActivity {
             return;
         }
 
-        building = new Building(imageUrl ,name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
-        building.setTag(tag);
-
         if (type.equals("new")){
+            building = new Building(imageUrl ,name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
+            building.setTag(tag);
             if(G.getCurrentBuilding() == null) G.setCurrentBuilding(building);
             else {
                 buildings.add(building);
@@ -173,10 +172,11 @@ public class HouseEditActivity extends AppCompatActivity {
             }
         }else {
             if (index >= 0){
-                buildings.remove(index);
-                buildings.add(index, building);
+                building = buildings.get(index);
+                building.setValues(imageUrl, name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
                 G.setBuildings(buildings);
-            }else if (index == -1)   G.setCurrentBuilding(building);
+            }else if (index == -1)
+                G.getCurrentBuilding().setValues(imageUrl, name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
         }
         setResult(RESULT_OK, intent);
         finish();
@@ -209,7 +209,9 @@ public class HouseEditActivity extends AppCompatActivity {
                         String[] realPaths = getRealPathFromUri(uri).split("\\.");
                         String format = realPaths[realPaths.length - 1];
 
-                        if (building == null || building.getTag() == null) tag = Calendar.getInstance().getTimeInMillis() + "";
+                        if (building == null || building.getTag() == null) {
+                            tag = Calendar.getInstance().getTimeInMillis() + "";
+                        }
                         else tag = building.getTag();
 
                         String fileName = tag + "profiles." + format;

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.curtspec2018.homa.adapter.ChartMarker;
 import com.curtspec2018.homa.databinding.FragMtBinding;
@@ -43,6 +44,7 @@ public class MTFragment extends Fragment {
     BarChart chart;
     CombinedData data = new CombinedData();
     Random rand = new Random();
+    TextView tvTime, tvTotalCnt, tvOccupied, tvEmpty, tvRate, tvTotalRent;
 
     ArrayList<Floor> floors;
     int maxNumOfFloor;
@@ -92,6 +94,9 @@ public class MTFragment extends Fragment {
         chart.setData(getBarData());
         ChartMarker marker = new ChartMarker(getContext(), R.layout.marker_chart);
         chart.setMarker(marker);
+
+        tvTime = view.findViewById(R.id.tv_time);
+
 
         super.onViewCreated(view, savedInstanceState);
     }

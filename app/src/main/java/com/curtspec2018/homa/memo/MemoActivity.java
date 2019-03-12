@@ -53,12 +53,10 @@ public class MemoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         schedules.addAll(G.getMemos());
-        //schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
-        //schedules.add(Schedule.getInstanceFromMemo(Calendar.getInstance(), "테스트메모", "테스트입니다. 안나오면 화냄"));
-
         adapter = new MemoListAdapter(schedules, getLayoutInflater());
         b.listview.setAdapter(adapter);
 
+        b.tvHeader.setText("메모개수 : " + schedules.size() + "개");
         b.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
