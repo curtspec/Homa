@@ -83,9 +83,14 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 preferences.edit().putString("id", id).apply();
                                 G.setId(id);
-                                loadDatas();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
+                                G.loadInfor(LoginActivity.this, new Thread(){
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                }, null);
                                 return;
                             }
                         } catch (JSONException e) {
@@ -112,67 +117,20 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     editor.putString("id", id).apply();
                     G.setId(id);
-                    loadDatas();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    G.loadInfor(LoginActivity.this, new Thread(){
+                        @Override
+                        public void run() {
+                            super.run();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }, null);
                     return;
                 }
             }
             Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-    public void loadDatas(){
-
-        ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setTitle("회원정보 로딩중...");
-        dialog.show();
-
-        //============================================  Load Memos  ===================================================
-
-        String url = G.SERVER_URL + "loadMemos.php?id=" + G.getId();
-        Gson gson = new Gson();
-        ArrayList<Schedule> memos = new ArrayList<>();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Schedule memo = null;
-                for (int i = 0; i < response.length(); i++){
-                    try {
-                        JSONObject recode = response.getJSONObject(i);
-                        String calendarGson = recode.getString("date");
-                        Calendar date = gson.fromJson(calendarGson, Calendar.class);
-                        int type = recode.getInt("type");
-                        if (type == Schedule.TYPE_SCHEDULE){
-                            memo = Schedule.getInstanceFromMemo(date, recode.getString("title"), recode.getString("subtitle"));
-                        }else {
-                            memo = Schedule.getInstanceFromTenant(date, recode.getString("location"), type);
-                        }
-                        memos.add(memo);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                G.setMemos(memos);
-                dialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, "서버연결에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
-                handler.sendEmptyMessageDelayed(10, 1000);
-            }
-        });
-        Volley.newRequestQueue(LoginActivity.this).add(request);
-
-        //============================================  Load Rooms  ===================================================
-
-    }
-
-
 
     public void clickJoin(View view) {
         dragInLeft.setAnimationListener(new Animation.AnimationListener() {
