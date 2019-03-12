@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "406525238342",
+    "firebase_url": "https://homa-b9ec7.firebaseio.com",
+    "project_id": "homa-b9ec7",
+    "storage_bucket": "homa-b9ec7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406525238342:android:7d7c770d5cc2c4d2",
+        "android_client_info": {
+          "package_name": "com.curtspec2018.homa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406525238342-bsg4crd0r9hu2j0e9ca8osims5eomgmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNmp884SYHUhJh0br3WpT_Pm6CH36qttw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
