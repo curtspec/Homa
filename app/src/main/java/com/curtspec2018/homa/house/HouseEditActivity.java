@@ -123,6 +123,7 @@ public class HouseEditActivity extends AppCompatActivity {
 
         if (building != null){
             Glide.with(this).load(building.getProfileUrl()).into(b.iv);
+            imageUrl = building.getProfileUrl();
             b.editName.setText(building.getName());
             b.editAddress.setText(building.getAddress());
             b.editFloor.setText(building.getNumOfFloor()+"");
