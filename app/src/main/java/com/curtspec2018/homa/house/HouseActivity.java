@@ -136,30 +136,25 @@ public class HouseActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         String crtBuildingJson = gson.toJson(currentBuilding);
-
         JsonArray buildingsJson = new JsonArray();
-        for (Building b : items){
-            buildingsJson.add(gson.toJson(b));
-        }
-
-        Log.i("jsonCheck", buildingsJson.toString());
+        for (Building b : items) buildingsJson.add(gson.toJson(b));
 
         String url = G.SERVER_URL + "saveBuildings.php";
         SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                if (response.equals("error")) Toast.makeText(HouseActivity.this, "서버연결에 문제발생", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(HouseActivity.this, "서버연결에 문제발생", Toast.LENGTH_SHORT).show();
             }
         });
         request.addStringParam("id", G.getId());
         request.addStringParam("current", crtBuildingJson);
+        request.addStringParam("buildings", buildingsJson.toString());
 
-
-        //Volley.newRequestQueue(this).add(request);
+        Volley.newRequestQueue(this).add(request);
     }
 }
