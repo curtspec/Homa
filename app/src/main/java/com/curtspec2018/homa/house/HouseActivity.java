@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.SimpleMultiPartRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
@@ -16,6 +21,8 @@ import com.curtspec2018.homa.adapter.HouseAdapter;
 import com.curtspec2018.homa.databinding.ActivityHouseBinding;
 import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.HouseListItem;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 
@@ -123,4 +130,36 @@ public class HouseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Gson gson = new Gson();
+        String crtBuildingJson = gson.toJson(currentBuilding);
+
+        JsonArray buildingsJson = new JsonArray();
+        for (Building b : items){
+            buildingsJson.add(gson.toJson(b));
+        }
+
+        Log.i("jsonCheck", buildingsJson.toString());
+
+        String url = G.SERVER_URL + "saveBuildings.php";
+        SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.addStringParam("id", G.getId());
+        request.addStringParam("current", crtBuildingJson);
+
+
+        //Volley.newRequestQueue(this).add(request);
+    }
 }
