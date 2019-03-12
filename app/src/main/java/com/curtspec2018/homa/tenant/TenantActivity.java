@@ -11,15 +11,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.SimpleMultiPartRequest;
+import com.android.volley.toolbox.Volley;
 import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.TenantPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityTenantBinding;
+import com.curtspec2018.homa.vo.Floor;
 import com.curtspec2018.homa.vo.Room;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+
+import java.util.ArrayList;
 
 public class TenantActivity extends AppCompatActivity {
 
@@ -123,4 +134,37 @@ public class TenantActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CREATE_ROOM);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (G.getCurrentBuilding() != null) {
+            JsonArray roomsJson = new JsonArray();
+            Gson gson = new Gson();
+            ArrayList<Floor> floors =G.getCurrentBuilding().getFloors();
+            for (Floor f : floors){
+                for (Room r : f.getRooms()){
+                    roomsJson.add(gson.toJson(r));
+                }
+            }
+            String url = G.SERVER_URL + "saveRooms.php";
+            SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(TenantActivity.this, "서버연결에 문제발생", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            request.addStringParam("id", G.getId());
+            request.addStringParam("belong", G.getCurrentBuilding().getTag());
+            request.addStringParam("rooms", roomsJson.toString());
+
+            Volley.newRequestQueue(this).add(request);
+        }
+    }
 }

@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setTitle("회원정보 로딩중...");
+        dialog.show();
 
         //============================================  Load Memos  ===================================================
 
