@@ -5,9 +5,15 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.SimpleMultiPartRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
@@ -15,8 +21,12 @@ import com.curtspec2018.homa.adapter.HouseAdapter;
 import com.curtspec2018.homa.databinding.ActivityHouseBinding;
 import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.HouseListItem;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
+
+import static com.curtspec2018.homa.house.HouseEditActivity.RESULT_DELETE;
 
 public class HouseActivity extends AppCompatActivity {
 
@@ -37,17 +47,18 @@ public class HouseActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.house_activity_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        items = G.getBuildings();
-        currentBuilding = G.getCurrentBuilding();
+        items.addAll(G.getBuildings());
 
         adapter = new HouseAdapter(items, this);
         b.listview.setAdapter(adapter);
         b.listview.setEmptyView(b.emptyView);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        currentBuilding = G.getCurrentBuilding();
         if (currentBuilding != null){
             b.tvCurrentName.setText(currentBuilding.getName());
             b.tvCurrentAdd.setText(currentBuilding.getAddress());
@@ -57,13 +68,6 @@ public class HouseActivity extends AppCompatActivity {
             b.tvCurrentAdd.setText("등록된 건물이 없습니다");
             Glide.with(this).load(R.drawable.ic_request_image).into(b.circleIv);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (currentBuilding != null) G.setCurrentBuilding(currentBuilding);
-        G.setBuildings(items);
     }
 
     public void clickEnter(View v){
@@ -87,48 +91,70 @@ public class HouseActivity extends AppCompatActivity {
         startActivityForResult(intent, HOUSE_EDIT);
     }
 
+    public void exchangeCurrent(int position){
+        Building tmp = currentBuilding;
+        currentBuilding = items.get(position);
+        b.tvCurrentName.setText(currentBuilding.getName());
+        b.tvCurrentAdd.setText(currentBuilding.getAddress());
+        Glide.with(this).load(currentBuilding.getProfileUrl()).into(b.circleIv);
+
+        items.remove(position);
+        items.add(position, tmp);
+        adapter.notifyDataSetChanged();
+
+        G.setCurrentBuilding(currentBuilding);
+        G.setBuildings(items);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
             case HOUSE_EDIT:
                 if (resultCode == RESULT_OK){
-                    String type = data.getStringExtra("type");
-                    int index = data.getIntExtra("index", -2);
-                    String name = data.getStringExtra("name");
-                    String address = data.getStringExtra("address");
-                    int numOfFloor = data.getIntExtra("numOfFloor", 0);
-                    boolean isElevator = data.getBooleanExtra("isElevator", false);
-                    boolean isParking = data.getBooleanExtra("isParking", false);
-                    boolean isUnderGround = data.getBooleanExtra("isUnderGround", false);
-
-                    Building building = null;
-                    if (type.equals("new")){
-                        building = new Building(name, address, numOfFloor, isElevator, isParking, isUnderGround);
-                        if (currentBuilding == null) currentBuilding = building;
-                        else items.add(building);
-                    }else if (type.equals("edit")){
-                        if (index >= 0)   building = items.get(index);
-                        else if (index == -1) building = currentBuilding;
-                        if (building != null) {
-                            building.setName(name);
-                            building.setAddress(address);
-                            building.setNumOfFloor(numOfFloor);
-                            building.setElevator(isElevator);
-                            building.setParking(isParking);
-                            building.setUnderGround(isUnderGround);
-                        }
-                        adapter.notifyDataSetChanged();
+                    currentBuilding = G.getCurrentBuilding();
+                    if (currentBuilding != null){
+                        b.tvCurrentName.setText(currentBuilding.getName());
+                        b.tvCurrentAdd.setText(currentBuilding.getAddress());
+                        Glide.with(this).load(currentBuilding.getProfileUrl()).into(b.circleIv);
+                    }else {
+                        b.tvCurrentName.setText("건물 없음");
+                        b.tvCurrentAdd.setText("등록된 건물이 없습니다");
+                        Glide.with(this).load(R.drawable.ic_request_image).into(b.circleIv);
                     }
-                }
-                if (resultCode == HouseEditActivity.RESULT_DELETE){
-                    int index = data.getIntExtra("index", -2);
-                    if (index >= 0) items.remove(index);
-                    if (index == -1) currentBuilding = null;
-                    adapter.notifyDataSetChanged();
+                    items = G.getBuildings();
+                    adapter = new HouseAdapter(items, this);
+                    b.listview.setAdapter(adapter);
                 }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Gson gson = new Gson();
+        String crtBuildingJson = gson.toJson(currentBuilding);
+        JsonArray buildingsJson = new JsonArray();
+        for (Building b : items) buildingsJson.add(gson.toJson(b));
+
+        String url = G.SERVER_URL + "saveBuildings.php";
+        SimpleMultiPartRequest request = new SimpleMultiPartRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equals("error")) Toast.makeText(HouseActivity.this, "서버연결에 문제발생", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(HouseActivity.this, "서버연결에 문제발생", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.addStringParam("id", G.getId());
+        request.addStringParam("current", crtBuildingJson);
+        request.addStringParam("buildings", buildingsJson.toString());
+
+        Volley.newRequestQueue(this).add(request);
+    }
 }

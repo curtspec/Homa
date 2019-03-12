@@ -24,12 +24,14 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".house.HouseEditActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:parentActivityName=".house.HouseActivity" />
         <activity
             android:name=".tenant.TenantActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".tenant.TenantEditActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:parentActivityName=".tenant.TenantActivity" />
         <activity
             android:name=".account.AccountActivity"

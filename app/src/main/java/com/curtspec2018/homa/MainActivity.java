@@ -8,11 +8,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,10 +26,6 @@ import com.curtspec2018.homa.house.HouseActivity;
 import com.curtspec2018.homa.memo.MemoActivity;
 import com.curtspec2018.homa.tenant.TenantActivity;
 import com.curtspec2018.homa.vo.Building;
-import com.curtspec2018.homa.vo.Schedule;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapFragment;
@@ -159,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lati = result.get(0).getLatitude();
                 logi = result.get(0).getLongitude();
             } catch (IOException e) {
-                Toast.makeText(this, "주소검색 결과 없음", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "주소검색 실패", Toast.LENGTH_SHORT).show();
             }
         }
 

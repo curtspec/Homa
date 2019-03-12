@@ -18,6 +18,7 @@ public class Building implements Serializable {
     private boolean isElevator;
     private boolean isParking;
     private boolean isUnderGround;
+    private String tag;
 
     private ArrayList<Floor> floors = new ArrayList<>();
     private ArrayList<MonthAccount> accounts = new ArrayList<>();
@@ -144,8 +145,34 @@ public class Building implements Serializable {
 
     public void removeRoom(Room room){
         int floor = room.getFloor();
-        for (Floor f : floors){
-            if (f.getFloor() == floor) f.getRooms().remove(room);
+        Floor f;
+        for (int i = 0; i < floors.size(); i++){
+            f = floors.get(i);
+            if (f.getFloor() == floor){
+                f.getRooms().remove(room);
+                if (f.getRooms().size() == 0){
+                    floors.remove(i);
+                }
+                return;
+            }
+        }
+    }
+
+    public void addRoom(Room room){
+        int floor = room.getFloor();
+        int index = -1;
+        for (int i = 0; i < floors.size(); i++){
+            if (floor == floors.get(i).getFloor()) {
+                index = i;
+                break;
+            }
+        }
+        if (index < 0){
+            ArrayList rooms = new ArrayList();
+            rooms.add(room);
+            floors.add(new Floor(floor, rooms));
+        }else {
+            floors.get(index).getRooms().add(room);
         }
     }
 
@@ -260,5 +287,13 @@ public class Building implements Serializable {
 
     public void setCurrnetMonth(MonthAccount currnetMonth) {
         this.currnetMonth = currnetMonth;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

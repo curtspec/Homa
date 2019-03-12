@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                             if (idRecived.equals(id) && pwRecived.equals(pw)) {
                                 //로그인 성공
                                 boolean isAuto = b.cbAuto.isChecked();
-                                Log.i("ErrorTrace - login", isAuto+"");
                                 SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
                                 if (isAuto) {
                                     preferences.edit().putBoolean("auto", true);
