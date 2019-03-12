@@ -219,7 +219,10 @@ public class TenantEditActivity extends AppCompatActivity {
                 b.editDeposit.setText(t.getDeposit()+"");
                 b.editPayday.setText(t.getPayday()+"");
                 b.editArrear.setText(t.getArrear()+"");
-                if (t.getImgUrl() != null)  Glide.with(this).load(t.getImgUrl()).into(b.iv);
+                if (t.getImgUrl() != null)  {
+                    Glide.with(this).load(t.getImgUrl()).into(b.iv);
+                    imgUrl = t.getImgUrl();
+                }
                 else Glide.with(this).load(R.drawable.ic_request_image).into(b.iv);
                 b.editTenantName.setText(t.getTenantName());
                 b.editTenantNumber.setText(t.getPhoneNumber());
@@ -353,6 +356,7 @@ public class TenantEditActivity extends AppCompatActivity {
                 if (!tenantName.equals("")) t.setTenantName(tenantName);
                 if (!tenantNumber.equals("")) t.setPhoneNumber(tenantNumber);
                 if (imgUrl != null) t.setImgUrl(imgUrl);
+                if (tag != null) room.setTag(tag);
 
                 room.setTenants(t);
             }

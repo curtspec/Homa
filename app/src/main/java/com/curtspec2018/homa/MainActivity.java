@@ -150,8 +150,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Geocoder coder = new Geocoder(this, Locale.KOREA);
             try {
                 List<Address> result = coder.getFromLocationName(address, 1);
-                lati = result.get(0).getLatitude();
-                logi = result.get(0).getLongitude();
+                if (result.size() >= 0) {
+                    lati = result.get(0).getLatitude();
+                    logi = result.get(0).getLongitude();
+                }else {
+                    Toast.makeText(this, "해당주소를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
+                }
             } catch (IOException e) {
                 Toast.makeText(this, "주소검색 실패", Toast.LENGTH_SHORT).show();
             }
