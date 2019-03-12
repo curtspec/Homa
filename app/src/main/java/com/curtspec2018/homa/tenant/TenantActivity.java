@@ -73,7 +73,8 @@ public class TenantActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //TODO : List의 호수로 검색
+                FloorFragment f = (FloorFragment) adapter.getItem(0);
+                f.scrollTo(query);
                 searchView.setQuery("",false);
                 searchView.setIconified(true);
                 return false;
@@ -91,34 +92,16 @@ public class TenantActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) return;
-        Room room = (Room) data.getSerializableExtra("room");
-        boolean isDelete = data.getBooleanExtra("delete", false);
         switch (requestCode){
-            case REQUEST_CREATE_ROOM :
-                if (resultCode == RESULT_OK && room != null){
-                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-                    floorFragment.addItem(room);
-                }
-                break;
-            case REQUEST_EDIT_FLOOR:
-                if (resultCode == RESULT_OK && room != null && !isDelete){
-                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-                    floorFragment.editItem(room, requestedItemPosition);
-                }else if (resultCode == RESULT_OK && room != null && isDelete){
-                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-                    floorFragment.deleteItem(room, requestedItemPosition);
-                }
-                break;
             case REQUEST_EDIT_EMPTY:
                 b.viewPager.setCurrentItem(1, true);
-                if (resultCode == RESULT_OK && room != null && !isDelete){
-                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-                    floorFragment.editItem(room);
-                }else if (resultCode == RESULT_OK && room != null && isDelete){
-                    FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-                    floorFragment.deleteItem(room);
-                }
                 break;
+        }
+        if (resultCode == RESULT_OK){
+            FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
+            EmptyFragment emptyFragment = (EmptyFragment) adapter.getItem(1);
+            floorFragment.refreshView();
+            emptyFragment.refreshView();
         }
     }
 
@@ -140,17 +123,4 @@ public class TenantActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CREATE_ROOM);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-//        floorFragment.refreshView();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        FloorFragment floorFragment = (FloorFragment) adapter.getItem(0);
-//        floorFragment.saveData();
-//    }
 }

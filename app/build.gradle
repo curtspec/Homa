@@ -45,4 +45,7 @@ dependencies {
     implementation 'com.applandeo:material-calendar-view:1.5.1'
     implementation 'com.naver.maps:map-sdk:3.1.0'
     implementation 'dev.dworks.libs:volleyplus:+'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
 }
+apply plugin: 'com.google.gms.google-services'

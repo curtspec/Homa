@@ -109,7 +109,12 @@ public class MemoActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //TODO : List의 호수로 검색
+                for (int i = 0; i< schedules.size(); i ++ ){
+                    if (query.equals(schedules.get(i).getTitle())){
+                        b.listview.smoothScrollToPosition(i);
+                        break;
+                    }
+                }
                 searchView.setQuery("",false);
                 searchView.setIconified(true);
                 return false;

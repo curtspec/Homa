@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.curtspec2018.homa.G;
@@ -17,7 +19,11 @@ import com.curtspec2018.homa.house.HouseEditActivity;
 import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.HouseListItem;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HouseAdapter extends BaseAdapter{
 
@@ -51,33 +57,29 @@ public class HouseAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null){
             convertView = inflater.inflate(R.layout.item_house, parent, false);
-            b = DataBindingUtil.inflate(inflater, R.layout.item_house, parent, false);
         }
-        b.tvName.setText(items.get(position).getName());
-        b.tvAddress.setText(items.get(position).getAddress());
+        TextView tvName = convertView.findViewById(R.id.tv_name);
+        TextView tvAddress = convertView.findViewById(R.id.tv_address);
+        CircleImageView ci = convertView.findViewById(R.id.circle_iv);
+        ImageView ivEnter = convertView.findViewById(R.id.iv_enter);
+        ImageView ivSelect = convertView.findViewById(R.id.iv_select);
 
+        tvName.setText(items.get(position).getName());
+        tvAddress.setText(items.get(position).getAddress());
         if (!items.get(position).getProfileUrl().equals("default"))
-            Glide.with(context).load(items.get(position).getProfileUrl()).into(b.circleIv);
-
-        b.ivEnter.setOnClickListener(new View.OnClickListener() {
+            Glide.with(context).load(items.get(position).getProfileUrl()).into(ci);
+        ivEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HouseActivity activity = (HouseActivity) context;
                 activity.editBuilding(position);
             }
         });
-        b.ivSelect.setOnClickListener(new View.OnClickListener() {
+        ivSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Building currentBuilding = G.getCurrentBuilding();
-                if (currentBuilding == null){
-                    G.setCurrentBuilding(G.getBuildings().get(position));
-                    G.getBuildings().remove(position);
-                }else {
-                    G.getBuildings().add(currentBuilding);
-                    G.setCurrentBuilding(G.getBuildings().get(position));
-                    G.getBuildings().remove(position);
-                }
+                HouseActivity activity = (HouseActivity) context;
+                activity.exchangeCurrent(position);
             }
         });
         return convertView;

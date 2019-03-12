@@ -1,8 +1,10 @@
 package com.curtspec2018.homa.house;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,11 +12,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +31,16 @@ import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ActivityHouseEditBinding;
 import com.curtspec2018.homa.vo.Building;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class HouseEditActivity extends AppCompatActivity {
 
@@ -37,6 +50,10 @@ public class HouseEditActivity extends AppCompatActivity {
 
     int index;
     Building building;
+    ArrayList<Building> buildings = new ArrayList<>();
+
+    String imageUrl;
+    String tag;
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -99,11 +116,14 @@ public class HouseEditActivity extends AppCompatActivity {
         intent = getIntent();
         type = intent.getStringExtra("type");
         index = intent.getIntExtra("index", -2);
+        buildings = G.getBuildings();
 
-        if (index >= 0)                           building = G.getBuildings().get(index);
+        if (index >= 0)                           building = buildings.get(index);
         if (type.equals("edit") && index == -1)   building = G.getCurrentBuilding();
 
         if (building != null){
+            Glide.with(this).load(building.getProfileUrl()).into(b.iv);
+            imageUrl = building.getProfileUrl();
             b.editName.setText(building.getName());
             b.editAddress.setText(building.getAddress());
             b.editFloor.setText(building.getNumOfFloor()+"");
@@ -137,15 +157,27 @@ public class HouseEditActivity extends AppCompatActivity {
         }else if (Integer.parseInt(numOfFloor) == 0){
             Toast.makeText(this, "정확한 층수를 입력하세요", Toast.LENGTH_SHORT).show();
             return;
+        }else if (imageUrl == null){
+            Toast.makeText(this, "사진을 등록해주세요", Toast.LENGTH_SHORT).show();
+            return;
         }
-        intent.putExtra("type", type);
-        intent.putExtra("index", index);
-        intent.putExtra("name" , name);
-        intent.putExtra("address" , address);
-        intent.putExtra("numOfFloor", Integer.parseInt(numOfFloor));
-        intent.putExtra("isElevator", isElevator);
-        intent.putExtra("isParking", isParking);
-        intent.putExtra("isUnderGround", isUnderGround);
+
+        building = new Building(imageUrl ,name, address, Integer.parseInt(numOfFloor), isElevator, isParking, isUnderGround);
+        building.setTag(tag);
+
+        if (type.equals("new")){
+            if(G.getCurrentBuilding() == null) G.setCurrentBuilding(building);
+            else {
+                buildings.add(building);
+                G.setBuildings(buildings);
+            }
+        }else {
+            if (index >= 0){
+                buildings.remove(index);
+                buildings.add(index, building);
+                G.setBuildings(buildings);
+            }else if (index == -1)   G.setCurrentBuilding(building);
+        }
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -161,6 +193,12 @@ public class HouseEditActivity extends AppCompatActivity {
         switch (requestCode){
             case REQUEST_PICK :
                 if (resultCode == RESULT_OK) {
+                    ProgressDialog progressDialog = new ProgressDialog(this);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.setMessage("이미지 저장중...");
+                    progressDialog.show();
+
                     Bundle extra = data.getExtras();
                     if (extra != null){
                         Bitmap bitmap = (Bitmap) extra.get("data");
@@ -168,11 +206,45 @@ public class HouseEditActivity extends AppCompatActivity {
                     }else {
                         Uri uri = data.getData();
                         Glide.with(this).load(uri).into(b.iv);
+                        String[] realPaths = getRealPathFromUri(uri).split("\\.");
+                        String format = realPaths[realPaths.length - 1];
+
+                        if (building == null || building.getTag() == null) tag = Calendar.getInstance().getTimeInMillis() + "";
+                        else tag = building.getTag();
+
+                        String fileName = tag + "profiles." + format;
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference rootRef = storage.getReference();
+                        StorageReference targetRef = rootRef.child(G.getId() + "/buildingsProfiles/" + fileName);
+                        UploadTask task = targetRef.putFile(uri);
+                        task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                targetRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        imageUrl = uri.toString();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public String getRealPathFromUri(Uri uri){
+        String[] proj= {MediaStore.Images.Media.DATA};
+        CursorLoader loader= new CursorLoader(this, uri, proj, null, null, null);
+        Cursor cursor= loader.loadInBackground();
+        int column_index= cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result= cursor.getString(column_index);
+        cursor.close();
+        return  result;
     }
 
     @Override
@@ -195,8 +267,17 @@ public class HouseEditActivity extends AppCompatActivity {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        intent.putExtra("index", index);
-                        setResult(RESULT_DELETE, intent);
+                        if (index == -1){
+                            G.setCurrentBuilding(null);
+                            if (G.getBuildings().size() > 0){
+                                G.setCurrentBuilding(G.getBuildings().get(0));
+                                G.getBuildings().remove(0);
+                            }
+                        }else if (index >= 0){
+                            G.getBuildings().remove(index);
+                        }
+                        dialog.dismiss();
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });
