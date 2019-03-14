@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="계정관리">
+
+        <Preference
+            android:key="id"
+            android:summary="default id"
+            android:title="아이디"/>
+
+        <SwitchPreference
+            android:key="auto"
+            android:title="로그인정보 저장"
+            android:summary="활성화시 자동 로그인"/>
+
+        <Preference
+            android:key="logout"
+            android:title="로그아웃"/>
+
+        <Preference
+            android:enabled="false"
+            android:key="password"
+            android:title="비밀번호 변경" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="application">
+
+        <Preference android:title="developer contact"
+            android:summary="curtspec@gmail.com"/>
+
+        <Preference android:key="version"
+            android:title="App version"
+            android:summary="ver 2.0"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

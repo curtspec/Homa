@@ -296,4 +296,14 @@ public class Building implements Serializable {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    public void setValues(String profileUrl, String name, String address, int numOfFloor, boolean isElevator, boolean isParking, boolean isUnderGround){
+        this.profileUrl = profileUrl;
+        this.name = name;
+        this.address = address;
+        this.numOfFloor = numOfFloor;
+        this.isElevator = isElevator;
+        this.isParking = isParking;
+        this.isUnderGround = isUnderGround;
+    }
 }

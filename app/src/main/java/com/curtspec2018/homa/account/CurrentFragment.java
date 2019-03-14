@@ -3,6 +3,7 @@ package com.curtspec2018.homa.account;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
@@ -35,6 +36,7 @@ import com.curtspec2018.homa.databinding.FragAccountCurrentBinding;
 import com.curtspec2018.homa.vo.Account;
 import com.curtspec2018.homa.vo.Building;
 import com.curtspec2018.homa.vo.MonthAccount;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +63,8 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
     ArrayList<Account> floatExpense;
 
     MonthAccount currentMonth;
-    Building currentBuilding;
+
+    public static final String PREFERENCE_NAME = "THIS_MONTH";
 
     @Nullable
     @Override
@@ -70,20 +73,17 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
 
         //====================================== data setting ==================================================
 
-        currentBuilding = G.getCurrentBuilding();
         String thisMonth = new SimpleDateFormat("yyyy.MM").format(new Date());
-        if (currentBuilding != null) {
-            currentMonth = currentBuilding.getCurrnetMonth();
-            if (currentMonth == null){
-                currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
+        SharedPreferences preferences = getContext().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        String data = preferences.getString("data", null);
+        if (data != null){
+            currentMonth = new Gson().fromJson(data, MonthAccount.class);
+            if (!currentMonth.getWhen().equals(thisMonth)){
+                G.getCurrentBuilding().getAccounts().add(currentMonth);
+                currentMonth = new MonthAccount(thisMonth, G.getCurrentBuilding().getTotalRent(), new ArrayList<Account>(), new ArrayList<Account>());
             }
-            if (!currentMonth.getWhen().equals(thisMonth)) {
-                currentBuilding.getAccounts().add(0, currentMonth);
-                currentMonth = new MonthAccount(thisMonth, currentBuilding.getTotalRent(), new ArrayList<>(), new ArrayList<>());
-            }
-        }else {
-            currentMonth = new MonthAccount(thisMonth, 0, new ArrayList<>(), new ArrayList<>());
         }
+        preferences.edit().putBoolean("isRunning", true).apply();
 
         //=========================================================================================================
 
@@ -136,10 +136,11 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Building currentBuilding = G.getCurrentBuilding();
-        if (currentBuilding != null){
-            currentBuilding.setCurrnetMonth(currentMonth);
-        }
+        Gson gson = new Gson();
+        String data  = gson.toJson(currentMonth);
+        SharedPreferences preferences = getContext().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        preferences.edit().putString("data", data);
+        preferences.edit().putBoolean("isRunning", false).apply();
     }
 
     private void resetValues(){

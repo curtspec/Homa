@@ -162,6 +162,7 @@ public class TenantActivity extends AppCompatActivity {
 
             request.addStringParam("id", G.getId());
             request.addStringParam("belong", G.getCurrentBuilding().getTag());
+            Log.i("hotfix", G.getCurrentBuilding().getTag());
             request.addStringParam("rooms", roomsJson.toString());
 
             Volley.newRequestQueue(this).add(request);

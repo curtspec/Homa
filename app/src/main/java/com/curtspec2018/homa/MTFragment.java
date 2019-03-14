@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.curtspec2018.homa.adapter.ChartMarker;
 import com.curtspec2018.homa.databinding.FragMtBinding;
@@ -34,6 +35,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 public class MTFragment extends Fragment {
@@ -42,7 +44,7 @@ public class MTFragment extends Fragment {
 
     BarChart chart;
     CombinedData data = new CombinedData();
-    Random rand = new Random();
+    TextView tvTime, tvTotalCnt, tvOccupied, tvEmpty, tvRate, tvTotalRent;
 
     ArrayList<Floor> floors;
     int maxNumOfFloor;
@@ -93,6 +95,35 @@ public class MTFragment extends Fragment {
         ChartMarker marker = new ChartMarker(getContext(), R.layout.marker_chart);
         chart.setMarker(marker);
 
+        tvTime = view.findViewById(R.id.tv_time);
+        tvTotalCnt = view.findViewById(R.id.tv_total_cnt);
+        tvOccupied = view.findViewById(R.id.tv_occupied);
+        tvEmpty = view.findViewById(R.id.tv_empty);
+        tvRate = view.findViewById(R.id.tv_rate);
+        tvTotalRent = view.findViewById(R.id.tv_total_rent);
+
+        Calendar today = Calendar.getInstance();
+        tvTime.setText(today.get(Calendar.YEAR) + "년" + (today.get(Calendar.MONTH) + 1) + "월");
+
+        if (G.getCurrentBuilding() != null) {
+            int totalCnt = 0, totalRent = 0, occupied = 0;
+
+            ArrayList<Floor> floors = G.getCurrentBuilding().getFloors();
+            for (Floor f : floors){
+                for (Room r : f.getRooms()){
+                    totalCnt ++;
+                    if (r.isOccupied() && r.getTenants() != null){
+                        occupied ++;
+                        totalRent += r.getTenants().getRent();
+                    }
+                }
+            }
+            tvTotalCnt.setText(totalCnt + "개");
+            tvOccupied.setText(occupied + "개");
+            tvEmpty.setText((totalCnt - occupied) + "개");
+            tvRate.setText( (occupied / totalCnt * 100) + "%" );
+            tvTotalRent.setText(G.divisionThousand(totalRent) + "만원");
+        }
         super.onViewCreated(view, savedInstanceState);
     }
 

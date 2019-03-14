@@ -100,10 +100,6 @@ public class SMSActivity extends AppCompatActivity implements AdapterView.OnItem
             }
         });
 
-        //testdata
-        addable.add(new Target("201호", "박성진", "01027117876"));
-        addable.add(new Target("202호", "방주연", "01092325327"));
-        addable.add(new Target("203호", "김지윤", "01045276767"));
     }
 
     public void clickAdd(View view) {

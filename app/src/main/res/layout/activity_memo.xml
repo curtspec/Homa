@@ -17,6 +17,29 @@
             android:layout_height="?attr/actionBarSize">
         </android.support.v7.widget.Toolbar>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="터치하여 상세보기 및 편집"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:textSize="13sp"
+                android:text="메모개수 : 0개"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
