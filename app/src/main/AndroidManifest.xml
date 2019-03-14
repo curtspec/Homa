@@ -65,7 +65,11 @@
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <service android:name=".MonthChangeService"/>
+
+        <service android:name=".MonthChangeService" />
+
+        <activity android:name=".preference.PreferenceActivity"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import com.curtspec2018.homa.adapter.MPagerAdapter;
 import com.curtspec2018.homa.databinding.ActivityMainBinding;
 import com.curtspec2018.homa.house.HouseActivity;
 import com.curtspec2018.homa.memo.MemoActivity;
+import com.curtspec2018.homa.preference.PreferenceActivity;
 import com.curtspec2018.homa.tenant.TenantActivity;
 import com.curtspec2018.homa.vo.Building;
 import com.naver.maps.geometry.LatLng;
@@ -89,12 +90,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         View account = headerView.findViewById(R.id.menu_account);
         View sms = headerView.findViewById(R.id.menu_sms);
         View memo = headerView.findViewById(R.id.menu_memo);
+        View setting = headerView.findViewById(R.id.menu_setting);
 
         building.setOnClickListener(this);
         tenant.setOnClickListener(this);
         account.setOnClickListener(this);
         sms.setOnClickListener(this);
         memo.setOnClickListener(this);
+        setting.setOnClickListener(this);
 
         b.navigation.addHeaderView(headerView);
 
@@ -187,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.menu_memo:
                 startActivity(new Intent(MainActivity.this, MemoActivity.class));
+                break;
+            case R.id.menu_setting:
+                startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
                 break;
         }
     }
