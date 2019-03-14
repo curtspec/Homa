@@ -107,7 +107,7 @@
 
                 <TextView
                     android:id="@+id/tv_total_cnt"
-                    android:text="23개"
+                    android:text="0개"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -146,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/tv_occupied"
-                    android:text="18개"
+                    android:text="0개"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -185,7 +185,7 @@
 
                 <TextView
                     android:id="@+id/tv_empty"
-                    android:text="5개"
+                    android:text="0개"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -224,7 +224,7 @@
 
                 <TextView
                     android:id="@+id/tv_rate"
-                    android:text="26.03%"
+                    android:text="0%"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -263,7 +263,7 @@
 
                 <TextView
                     android:id="@+id/tv_total_rent"
-                    android:text="1000만원"
+                    android:text="0만원"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="16sp"

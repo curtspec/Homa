@@ -10,29 +10,29 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_custom_launcher"
         android:label="@string/custom_app_name"
-        tools:replace="android:label"
         android:roundIcon="@mipmap/ic_custom_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="ytxjsbppzg" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".house.HouseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".house.HouseEditActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:parentActivityName=".house.HouseActivity" />
+            android:parentActivityName=".house.HouseActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".tenant.TenantActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".tenant.TenantEditActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:parentActivityName=".tenant.TenantActivity" />
+            android:parentActivityName=".tenant.TenantActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".account.AccountActivity"
             android:parentActivityName=".MainActivity" />
@@ -53,8 +53,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <receiver
+            android:name=".DayChangeReciver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".MonthChangeService"/>
     </application>
 
 </manifest>
