@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             });
             Volley.newRequestQueue(this).add(request);
         }else {
+
             if (members.containsKey(id)){
                 if (pw.equals(members.get(id))){
                     boolean isAuto = b.cbAuto.isChecked();

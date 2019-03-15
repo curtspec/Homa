@@ -47,8 +47,8 @@ public class Building implements Serializable {
     public ArrayList<Schedule> getSchedulesFromTenant(){
         ArrayList<Schedule> schedules = new ArrayList<>();
         Calendar today = Calendar.getInstance();
-        int month = 0;
-        int year = 0;
+        int month;
+        int year;
         for (Floor f : floors){
             for (Room r : f.getRooms()){
                 month = today.get(Calendar.MONTH);

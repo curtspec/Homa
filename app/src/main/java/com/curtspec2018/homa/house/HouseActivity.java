@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,13 +19,10 @@ import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.adapter.HouseAdapter;
 import com.curtspec2018.homa.databinding.ActivityHouseBinding;
 import com.curtspec2018.homa.vo.Building;
-import com.curtspec2018.homa.vo.HouseListItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
-
-import static com.curtspec2018.homa.house.HouseEditActivity.RESULT_DELETE;
 
 public class HouseActivity extends AppCompatActivity {
 
