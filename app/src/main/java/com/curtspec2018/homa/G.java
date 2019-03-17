@@ -211,6 +211,16 @@ public class G {
                         Room r = new Room(name, nickname, floor, isOccupied, isUnderGround);
                         if (isOccupied && tenantJson != null){
                             Tenant t = gson.fromJson(tenantJson, Tenant.class);
+                            String target = t.getTenantName();
+                            if (target != null) {
+                                String[] unicodeStr = target.split("u");
+                                String goal = "";
+                                for (int k = 1; k < unicodeStr.length; k++) {
+                                    int hexCode = Integer.parseInt(unicodeStr[k], 16);
+                                    goal += (char)hexCode;
+                                }
+                                t.setTenantName(goal);
+                            }
                             r.setTenants(t);
                         }
                         if (tag != null) r.setTag(tag);
