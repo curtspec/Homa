@@ -90,6 +90,7 @@ public class MTFragment extends Fragment {
         yAxis.setGranularityEnabled(true);
         yAxis.setGranularity(1);
         yAxis.setAxisMinimum(0);
+        //yAxis.setValueFormatter();
 
         chart.setData(getBarData());
         ChartMarker marker = new ChartMarker(getContext(), R.layout.marker_chart);
@@ -150,13 +151,15 @@ public class MTFragment extends Fragment {
         }
 
         BarDataSet set1 = new BarDataSet(entries1, "label1");
-        set1.setDrawValues(false);
+        set1.setDrawValues(true);
         set1.setColors(0xff80c6af, 0xff00ffaa);
         set1.setStackLabels(new String[]{"거주중","공실"});
+        set1.setValueTextSize(10);
 
         BarData data = new BarData(set1);
+        data.setDrawValues(true);
         data.setBarWidth(0.6f);
-        data.setValueFormatter(new StackedValueFormatter(true, "s", 0));
+        data.setValueFormatter(new StackedValueFormatter(true, "개", 0));
 
         return data;
     }
@@ -170,4 +173,18 @@ public class MTFragment extends Fragment {
             }
         }
     }
+
+//    class MyValueFomatter extends StackedValueFormatter{
+//
+//        /**
+//         * Constructor.
+//         *
+//         * @param drawWholeStack if true, all stack values of the stacked bar entry are drawn, else only top
+//         * @param appendix       a string that should be appended behind the value
+//         * @param decimals       the number of decimal digits to use
+//         */
+//        public MyValueFomatter(boolean drawWholeStack, String appendix, int decimals) {
+//            super(drawWholeStack, appendix, decimals);
+//        }
+//    }
 }
