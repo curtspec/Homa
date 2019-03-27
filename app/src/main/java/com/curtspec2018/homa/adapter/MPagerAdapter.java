@@ -11,7 +11,7 @@ import com.curtspec2018.homa.MTFragment;
 
 public class MPagerAdapter extends FragmentPagerAdapter {
 
-    String[] titles = new String[]{"미입금", "입금현황", "입주통계"};
+    String[] titles = new String[]{"입금현황", "입주통계"};
 
     public MPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -21,13 +21,13 @@ public class MPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         Fragment frag = null;
         switch (i){
+//            case 0:
+//                frag = new MSFragment();
+//                break;
             case 0:
-                frag = new MSFragment();
-                break;
-            case 1:
                 frag = new MFFragment();
                 break;
-            case 2:
+            case 1:
                 frag = new MTFragment();
                 break;
         }
