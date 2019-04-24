@@ -1,12 +1,10 @@
-package com.curtspec2018.homa.memo;
+package com.curtspec2019.homa.memo;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,8 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 
-import com.curtspec2018.homa.R;
-import com.curtspec2018.homa.databinding.ActivityMemoEditBinding;
+import com.curtspec2019.homa.R;
+import com.curtspec2019.homa.databinding.ActivityMemoEditBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
