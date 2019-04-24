@@ -1,5 +1,6 @@
 package com.curtspec2018.homa;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -119,11 +120,13 @@ public class IntroActivity extends AppCompatActivity {
         iv.startAnimation(dropDown);
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             iv.startAnimation(zoomOut);
+
         }
     };
 

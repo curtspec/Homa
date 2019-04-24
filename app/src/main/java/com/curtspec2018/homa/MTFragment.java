@@ -110,20 +110,22 @@ public class MTFragment extends Fragment {
             int totalCnt = 0, totalRent = 0, occupied = 0;
 
             ArrayList<Floor> floors = G.getCurrentBuilding().getFloors();
-            for (Floor f : floors){
-                for (Room r : f.getRooms()){
-                    totalCnt ++;
-                    if (r.isOccupied() && r.getTenants() != null){
-                        occupied ++;
-                        totalRent += r.getTenants().getRent();
+            if (floors.size() != 0) {
+                for (Floor f : floors) {
+                    for (Room r : f.getRooms()) {
+                        totalCnt++;
+                        if (r.isOccupied() && r.getTenants() != null) {
+                            occupied++;
+                            totalRent += r.getTenants().getRent();
+                        }
                     }
                 }
+                tvTotalCnt.setText(totalCnt + "개");
+                tvOccupied.setText(occupied + "개");
+                tvEmpty.setText((totalCnt - occupied) + "개");
+                tvRate.setText((occupied / totalCnt * 100) + "%");
+                tvTotalRent.setText(G.divisionThousand(totalRent) + "만원");
             }
-            tvTotalCnt.setText(totalCnt + "개");
-            tvOccupied.setText(occupied + "개");
-            tvEmpty.setText((totalCnt - occupied) + "개");
-            tvRate.setText( (occupied / totalCnt * 100) + "%" );
-            tvTotalRent.setText(G.divisionThousand(totalRent) + "만원");
         }
         super.onViewCreated(view, savedInstanceState);
     }

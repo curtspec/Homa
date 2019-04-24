@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Geocoder coder = new Geocoder(this, Locale.KOREA);
             try {
                 List<Address> result = coder.getFromLocationName(address, 1);
-                if (result.size() >= 0) {
+                if (result.size() > 0) {
                     lati = result.get(0).getLatitude();
                     logi = result.get(0).getLongitude();
                 }else {
