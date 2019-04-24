@@ -82,7 +82,8 @@ public class CurrentFragment extends Fragment implements BottomNavigationView.On
                 G.getCurrentBuilding().getAccounts().add(currentMonth);
                 currentMonth = new MonthAccount(thisMonth, G.getCurrentBuilding().getTotalRent(), new ArrayList<Account>(), new ArrayList<Account>());
             }
-        }
+        } else currentMonth = new MonthAccount(thisMonth, G.getCurrentBuilding().getTotalRent(), new ArrayList<Account>(), new ArrayList<Account>());
+
         preferences.edit().putBoolean("isRunning", true).apply();
 
         //=========================================================================================================

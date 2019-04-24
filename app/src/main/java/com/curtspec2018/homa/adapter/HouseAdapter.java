@@ -1,8 +1,6 @@
 package com.curtspec2018.homa.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.curtspec2018.homa.G;
 import com.curtspec2018.homa.R;
 import com.curtspec2018.homa.databinding.ItemHouseBinding;
 import com.curtspec2018.homa.house.HouseActivity;
-import com.curtspec2018.homa.house.HouseEditActivity;
 import com.curtspec2018.homa.vo.Building;
-import com.curtspec2018.homa.vo.HouseListItem;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

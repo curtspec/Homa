@@ -10,9 +10,12 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +23,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -35,12 +40,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.MapFragment;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Marker;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HouseEditActivity extends AppCompatActivity {
 
@@ -54,6 +70,9 @@ public class HouseEditActivity extends AppCompatActivity {
 
     String imageUrl;
     String tag;
+
+    String effectiveAddress;
+    double lati, logi;
 
     static final int RESULT_DELETE = 4444;
     final int REQUEST_PICK = 101;
@@ -135,8 +154,42 @@ public class HouseEditActivity extends AppCompatActivity {
     }
 
     public void clickMap(View view) {
-        //TODO : 현제의 주소를 기반으로 위치보여줌
-        if (building == null) return;
+        String address = b.editAddress.getText().toString();
+        if (checkAddress(address)) {
+            Intent intent = new Intent(this, MapViewActivity.class);
+            intent.putExtra("address", effectiveAddress);
+            intent.putExtra("lati", lati);
+            intent.putExtra("logi", logi);
+            startActivity(intent);
+        }
+
+    }
+
+    public boolean checkAddress(String address){
+        if (address == null || address.equals("")) return false;
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setCanceledOnTouchOutside(false);
+        progress.show();
+
+        Geocoder coder = new Geocoder(this, Locale.KOREA);
+        try {
+            List<Address> addresses = coder.getFromLocationName(address, 2);
+            if (addresses.size() == 0) {
+                progress.dismiss();
+                Toast.makeText(this, "올바른 주소가 아닙니다.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            effectiveAddress = address;
+            lati = addresses.get(0).getLatitude();
+            logi = addresses.get(0).getLongitude();
+        } catch (IOException e) {
+            progress.dismiss();
+            Toast.makeText(this, "인터넷연결이 원만하지 않습니다. 잠시후 다시 시도해주십시오.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (progress.isShowing()) progress.dismiss();
+        return true;
     }
 
     public void clickOK(View view) {
@@ -151,8 +204,7 @@ public class HouseEditActivity extends AppCompatActivity {
         if (name.equals("") || address.equals("") || numOfFloor.equals("")){
             Toast.makeText(this, "정보를 모두 입력하세요", Toast.LENGTH_SHORT).show();
             return;
-        }else if(!address.contains("시")){
-            Toast.makeText(this, "정확한 주소를 입력하세요", Toast.LENGTH_SHORT).show();
+        }else if(!checkAddress(address)){
             return;
         }else if (Integer.parseInt(numOfFloor) == 0){
             Toast.makeText(this, "정확한 층수를 입력하세요", Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.curtspec2018.homa;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -105,6 +106,7 @@ public class IntroActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(IntroActivity.this, "서버문제 발생", Toast.LENGTH_SHORT).show();
+                    Log.i("errorTrace", error.getMessage());
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(IntroActivity.this);
@@ -118,56 +120,14 @@ public class IntroActivity extends AppCompatActivity {
         iv.startAnimation(dropDown);
     }
 
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             iv.startAnimation(zoomOut);
+
         }
     };
-
-//    Thread t = new Thread(){
-//        @Override
-//        public void run() {
-//                //load Memos....=======================================================================
-//                String url = G.SERVER_URL + "loadMemos.php?id=" + G.getId();
-//                Gson gson = new Gson();
-//                ArrayList<Schedule> memos = new ArrayList<>();
-//                JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Schedule memo = null;
-//                        for (int i = 0; i < response.length(); i++){
-//                            try {
-//                                JSONObject recode = response.getJSONObject(i);
-//                                String calendarGson = recode.getString("date");
-//                                Calendar date = gson.fromJson(calendarGson, Calendar.class);
-//                                int type = recode.getInt("type");
-//                                if (type == Schedule.TYPE_SCHEDULE){
-//                                    memo = Schedule.getInstanceFromMemo(date, recode.getString("title"), recode.getString("subtitle"));
-//                                }else {
-//                                    memo = Schedule.getInstanceFromTenant(date, recode.getString("location"), type);
-//                                }
-//                                memos.add(memo);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        G.setMemos(memos);
-//                        handler.sendEmptyMessageDelayed(10, 1000);
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(IntroActivity.this, "서버연결에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
-//                        handler.sendEmptyMessageDelayed(10, 1000);
-//                    }
-//                });
-//                Volley.newRequestQueue(IntroActivity.this).add(request);
-//
-//
-//                //load rooms ... =======================================================================
-//        }//run()
-//    };
 
 }

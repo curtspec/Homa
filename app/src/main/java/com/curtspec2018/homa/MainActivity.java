@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        MFFragment mf = (MFFragment) adapter.getItem(1);
+        MFFragment mf = (MFFragment) adapter.getItem(0);
         mf.refreshView();
-        MTFragment mt = (MTFragment) adapter.getItem(2);
+        MTFragment mt = (MTFragment) adapter.getItem(1);
         mt.refreshView();
         Building currentBuilding = G.getCurrentBuilding();
         if (currentBuilding!= null){
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Geocoder coder = new Geocoder(this, Locale.KOREA);
             try {
                 List<Address> result = coder.getFromLocationName(address, 1);
-                if (result.size() >= 0) {
+                if (result.size() > 0) {
                     lati = result.get(0).getLatitude();
                     logi = result.get(0).getLongitude();
                 }else {

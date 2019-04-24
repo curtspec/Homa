@@ -117,10 +117,6 @@ public class MFFragment extends Fragment implements OnCalendarPageChangeListener
         calendar.setMinimumDate(min);
         calendar.setEvents(eventDays);
 
-//        Drawable d = CalendarUtils.getDrawableText(getContext(), today.get(Calendar.DAY_OF_MONTH) + "",
-//                Typeface.DEFAULT, R.color.White, (int)G.dpToPx(7, getContext()));
-//        fab.setImageDrawable(d);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

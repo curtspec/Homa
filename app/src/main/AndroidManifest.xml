@@ -13,7 +13,14 @@
         android:roundIcon="@mipmap/ic_custom_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:label">
+        <activity android:name=".house.MapViewActivity"></activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="ytxjsbppzg" />
@@ -68,8 +75,9 @@
 
         <service android:name=".MonthChangeService" />
 
-        <activity android:name=".preference.PreferenceActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".preference.PreferenceActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
