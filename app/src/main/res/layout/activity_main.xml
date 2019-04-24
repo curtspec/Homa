@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.curtspec2018.homa.MainActivity"/>
+            type="com.curtspec2019.homa.MainActivity"/>
     </data>
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"

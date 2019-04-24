@@ -3,7 +3,7 @@
     <data>
         <variable
             name="frag"
-            type="com.curtspec2018.homa.MTFragment"/>
+            type="com.curtspec2019.homa.MTFragment"/>
     </data>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

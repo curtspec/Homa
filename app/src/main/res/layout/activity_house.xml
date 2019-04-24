@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.curtspec2018.homa.house.HouseActivity"/>
+            type="com.curtspec2019.homa.house.HouseActivity"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

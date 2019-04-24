@@ -57,7 +57,7 @@
 
         <fragment
             android:id="@+id/pref_frag"
-            android:name="com.curtspec2018.homa.preference.PreferenceFrag"
+            android:name="com.curtspec2019.homa.preference.PreferenceFrag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

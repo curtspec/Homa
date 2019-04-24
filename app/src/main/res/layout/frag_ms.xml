@@ -3,7 +3,7 @@
     <data>
         <variable
             name="frag"
-            type="com.curtspec2018.homa.MSFragment"/>
+            type="com.curtspec2019.homa.MSFragment"/>
     </data>
     <LinearLayout
         android:weightSum="5"

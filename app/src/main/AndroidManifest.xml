@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.curtspec2018.homa">
+    package="com.curtspec2019.homa">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:label">
-        <activity android:name=".house.MapViewActivity"></activity>
+        <activity android:name="com.curtspec2019.homa.house.MapViewActivity"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -25,35 +25,35 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="ytxjsbppzg" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".house.HouseActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.house.HouseActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".house.HouseEditActivity"
-            android:parentActivityName=".house.HouseActivity"
+            android:name="com.curtspec2019.homa.house.HouseEditActivity"
+            android:parentActivityName="com.curtspec2019.homa.house.HouseActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".tenant.TenantActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.tenant.TenantActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".tenant.TenantEditActivity"
-            android:parentActivityName=".tenant.TenantActivity"
+            android:name="com.curtspec2019.homa.tenant.TenantEditActivity"
+            android:parentActivityName="com.curtspec2019.homa.tenant.TenantActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".account.AccountActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.account.AccountActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".SMS.SMSActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.SMS.SMSActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".memo.MemoActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.memo.MemoActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
         <activity
-            android:name=".memo.MemoEditActivity"
-            android:parentActivityName=".memo.MemoActivity"
+            android:name="com.curtspec2019.homa.memo.MemoEditActivity"
+            android:parentActivityName="com.curtspec2019.homa.memo.MemoActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".IntroActivity">
+        <activity android:name="com.curtspec2019.homa.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,11 +61,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.curtspec2019.homa.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <receiver
-            android:name=".DayChangeReciver"
+            android:name="com.curtspec2019.homa.DayChangeReciver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -73,11 +73,11 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".MonthChangeService" />
+        <service android:name="com.curtspec2019.homa.MonthChangeService" />
 
         <activity
-            android:name=".preference.PreferenceActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.curtspec2019.homa.preference.PreferenceActivity"
+            android:parentActivityName="com.curtspec2019.homa.MainActivity" />
     </application>
 
 </manifest>
